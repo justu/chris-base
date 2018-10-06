@@ -1,5 +1,6 @@
 package com.chris.base.common.utils;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpStatus;
 
@@ -11,10 +12,11 @@ import java.util.Map;
  * @author chris
  * @since Apr 20.18
  */
-public class CommonResponse<T> extends HashMap<String, Object> implements Serializable {
+public class CommonResponse<T> implements Serializable {
     private String code;
     private String msg;
     private T data;
+    private Map<String, Object> extMap = new HashMap<>();
 
     private CommonResponse(int code, String msg) {
         this.code = code + "";
@@ -32,6 +34,19 @@ public class CommonResponse<T> extends HashMap<String, Object> implements Serial
         CommonResponse commonResponse = (new CommonResponse()).setCode(HttpStatus.SC_OK + "").setMsg("success");
         commonResponse.putAll(map);
         return commonResponse;
+    }
+
+    private void putAll(Map<String, Object> map) {
+        this.extMap.putAll(map);
+    }
+
+    public CommonResponse put(String key, Object value) {
+        this.extMap.put(key, value);
+        return this;
+    }
+
+    public Object get(String key) {
+        return this.extMap.get(key);
     }
 
     public static CommonResponse error(String errorMsg) {
@@ -81,19 +96,18 @@ public class CommonResponse<T> extends HashMap<String, Object> implements Serial
     }
 
     @Override
-    public CommonResponse put(String key, Object value) {
-        super.put(key, value);
-        return this;
-    }
-
-    @Override
     public String toString() {
         try {
-            String e = "CommonResponse{code=\'" + this.code + '\'' + ", msg=\'" + this.msg + '\'' + ", data=" + (new ObjectMapper()).writeValueAsString(this.data) + '}';
+            String e = "CommonResponse{code=\'" + this.code + '\'' + ", msg=\'" + this.msg + '\'' + ", " +
+                    "data=" + (new ObjectMapper()).writeValueAsString(this.data) + ", extMap=" + JSONObject.toJSONString(this.extMap) + "}";
             return e;
         } catch (Exception var2) {
             var2.printStackTrace();
             return null;
         }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(JSONObject.toJSONString(CommonResponse.error(401, "invalid token")));
     }
 }
