@@ -255,12 +255,38 @@
 			<url>http://47.99.125.173:8081/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
+
 	<repositories>
 		<repository>
+			<id>public</id>
+			<name>Team Maven Repository</name>
+			<url>http://47.99.125.173:8081/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<!--<repository>
 			<id>aliyun</id>
 			<name>aliyun</name>
 			<url>http://maven.aliyun.com/nexus/content/groups/public</url>
-		</repository>
+		</repository>-->
 	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>public</id>
+			<name>Team Maven Repository</name>
+			<url>http://47.99.125.173:8081/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
 
 </project>
