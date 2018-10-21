@@ -243,18 +243,18 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	<!--<distributionManagement>
+	<distributionManagement>
 		<repository>
-			<id>chriszone-releases</id>
-			<name>public</name>
-			<url>http://47.99.125.173/nexus/content/repositories/releases/</url>
+			<id>releases</id>
+			<name>chris-releases</name>
+			<url>http://47.99.125.173:8081/nexus/content/repositories/releases/</url>
 		</repository>
 		<snapshotRepository>
-			<id>chriszone-snapshots</id>
-			<name>Snapshots</name>
-			<url>http://47.99.125.173/nexus/content/repositories/snapshots/</url>
+			<id>snapshots</id>
+			<name>chris-snapshots</name>
+			<url>http://47.99.125.173:8081/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
-	</distributionManagement>-->
+	</distributionManagement>
 	<repositories>
 		<repository>
 			<id>aliyun</id>
