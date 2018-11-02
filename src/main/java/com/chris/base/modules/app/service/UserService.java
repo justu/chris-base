@@ -16,12 +16,12 @@ import java.util.Map;
 public interface UserService {
 
 	UserEntity queryObject(Long userId);
-	
+
 	List<UserEntity> queryList(Map<String, Object> map);
 	
 	int queryTotal(Map<String, Object> map);
 	
-	void save(String mobile, String password);
+	void save(UserEntity user);
 	
 	void update(UserEntity user);
 	
@@ -38,4 +38,6 @@ public interface UserService {
 	 * @return          返回用户ID
 	 */
 	long login(String mobile, String password);
+
+	UserEntity queryUserByOpenId(String openId);
 }

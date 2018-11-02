@@ -9,6 +9,7 @@
 			`username`,
 			`mobile`,
 			`password`,
+			`open_id`,
 			`create_time`
 		)
 		values
@@ -16,6 +17,7 @@
 				#{username},
 				#{mobile},
 				#{password},
+				#{openId},
 				#{createTime}
 			)
 	</insert>
@@ -26,6 +28,33 @@
 
 	<select id="queryByMobile" resultType="com.chris.base.modules.app.entity.UserEntity">
 		select * from tb_user where mobile = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.chris.base.modules.app.entity.UserEntity">
+		select * from tb_user where 1=1
+		<if test="userId != null and userId !='' ">
+			AND user_id = #{userId}
+		</if>
+		<if test="username != null and username !='' ">
+			AND username = #{username}
+		</if>
+		<if test="mobile != null and mobile !='' ">
+			AND mobile = #{mobile}
+		</if>
+		<if test="password != null and password !='' ">
+			AND password = #{password}
+		</if>
+		<if test="openId != null and openId !='' ">
+			AND open_id = #{openId}
+		</if>
+		<choose>
+			<when test="sidx != null and sidx.trim() != ''">
+				order by ${sidx} ${order}
+			</when>
+			<otherwise>
+				order by user_id desc
+			</otherwise>
+		</choose>
 	</select>
 
 </mapper>

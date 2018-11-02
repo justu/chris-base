@@ -1,11 +1,13 @@
 package com.chris.base.modules.app.service.impl;
 
 
+import com.chris.base.common.utils.ValidateUtils;
 import com.chris.base.modules.app.dao.UserDao;
 import com.chris.base.modules.app.entity.UserEntity;
 import com.chris.base.modules.app.service.UserService;
 import com.chris.base.common.exception.CommonException;
 import com.chris.base.common.validator.Assert;
+import com.google.common.collect.ImmutableMap;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,12 +38,9 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void save(String mobile, String password){
-		UserEntity user = new UserEntity();
-		user.setMobile(mobile);
-		user.setUsername(mobile);
-		user.setPassword(DigestUtils.sha256Hex(password));
-		user.setCreateTime(new Date());
+	public void save(UserEntity user){
+		// 密码 SHA256 加密
+		user.setPassword(DigestUtils.sha256Hex(user.getPassword()));
 		userDao.save(user);
 	}
 	
@@ -76,5 +75,11 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return user.getUserId();
+	}
+
+	@Override
+	public UserEntity queryUserByOpenId(String openId) {
+		List<UserEntity> userList = this.userDao.queryList(ImmutableMap.of("openId", openId));
+		return ValidateUtils.isEmptyCollection(userList) ? null : userList.get(0);
 	}
 }

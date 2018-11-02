@@ -25,6 +25,9 @@ public class UserEntity implements Serializable {
 	//创建时间
 	private Date createTime;
 
+	//微信 openId
+	private String openId;
+
 	/**
 	 * 设置：用户ID
 	 */
@@ -84,5 +87,13 @@ public class UserEntity implements Serializable {
 	 */
 	public Date getCreateTime() {
 		return createTime;
+	}
+
+	public String getOpenId() {
+		return openId;
+	}
+
+	public void setOpenId(String openId) {
+		this.openId = openId;
 	}
 }

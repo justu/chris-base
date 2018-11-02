@@ -178,6 +178,21 @@
 			<artifactId>qiniu-java-sdk</artifactId>
 			<version>${qiniu.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>4.0.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+      <!--  <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-dyvmsapi</artifactId>
+            <version>1.2.0</version>
+        </dependency>-->
 		<dependency>
 			<groupId>com.aliyun.oss</groupId>
 			<artifactId>aliyun-sdk-oss</artifactId>
@@ -273,11 +288,6 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
-		<!--<repository>
-			<id>aliyun</id>
-			<name>aliyun</name>
-			<url>http://maven.aliyun.com/nexus/content/groups/public</url>
-		</repository>-->
 	</repositories>
 
 	<pluginRepositories>
