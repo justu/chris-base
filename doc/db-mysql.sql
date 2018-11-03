@@ -55,6 +55,7 @@ CREATE TABLE `sys_user_role` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `user_id` int(10) COMMENT '用户ID',
   `role_id` int(10) COMMENT '角色ID',
+  `user_source` tinyint(1) DEFAULT 1 COMMENT '用户来源，1.系统用户 2.微信端用户',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户与角色对应关系';
 

@@ -28,6 +28,8 @@ public class UserEntity implements Serializable {
 	//微信 openId
 	private String openId;
 
+	private String role;
+
 	/**
 	 * 设置：用户ID
 	 */
@@ -95,5 +97,13 @@ public class UserEntity implements Serializable {
 
 	public void setOpenId(String openId) {
 		this.openId = openId;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 }

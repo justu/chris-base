@@ -7,6 +7,7 @@ import com.chris.base.modules.app.entity.UserEntity;
 import com.chris.base.modules.app.service.UserService;
 import com.chris.base.modules.app.utils.JwtUtils;
 import com.chris.base.common.validator.Assert;
+import com.chris.base.modules.sys.entity.SysMenuEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -85,11 +87,12 @@ public class ApiUserController {
         UserEntity user = this.userService.queryUserByOpenId(openId);
         if (ValidateUtils.isNotEmpty(user)) {
             // TODO 获取用户微信端菜单
-
+            List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(openId);
+            return CommonResponse.ok().put("menus", userMenus);
         } else {
             // TODO 当前微信用户未注册，跳转到登录页
+            return CommonResponse.error("用户未注册！");
         }
-        return CommonResponse.ok();
     }
 
 }

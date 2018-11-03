@@ -7,6 +7,7 @@ import com.chris.base.modules.app.entity.UserEntity;
 import com.chris.base.modules.app.service.UserService;
 import com.chris.base.common.exception.CommonException;
 import com.chris.base.common.validator.Assert;
+import com.chris.base.modules.sys.entity.SysMenuEntity;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,4 +83,9 @@ public class UserServiceImpl implements UserService {
 		List<UserEntity> userList = this.userDao.queryList(ImmutableMap.of("openId", openId));
 		return ValidateUtils.isEmptyCollection(userList) ? null : userList.get(0);
 	}
+
+    @Override
+    public List<SysMenuEntity> queryUserMenusByOpenId(String openId) {
+        return this.userDao.queryUserMenusByOpenId(openId);
+    }
 }

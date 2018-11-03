@@ -2,6 +2,7 @@ package com.chris.base.modules.app.service;
 
 
 import com.chris.base.modules.app.entity.UserEntity;
+import com.chris.base.modules.sys.entity.SysMenuEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -40,4 +41,6 @@ public interface UserService {
 	long login(String mobile, String password);
 
 	UserEntity queryUserByOpenId(String openId);
+
+	List<SysMenuEntity> queryUserMenusByOpenId(String openId);
 }

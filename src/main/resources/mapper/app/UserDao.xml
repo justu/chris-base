@@ -57,4 +57,13 @@
 		</choose>
 	</select>
 
+	<select id="queryUserMenusByOpenId" resultType="com.chris.base.modules.sys.entity.SysMenuEntity" parameterType="java.lang.String">
+		select t.name,t.url from sys_menu t
+		INNER JOIN sys_role_menu t1 ON t.menu_id = t1.menu_id
+		INNER JOIN sys_role t2 ON t1.role_id = t2.role_id
+		INNER JOIN sys_user_role t3 ON t2.role_id = t3.role_id
+		INNER JOIN tb_user t4 ON t3.user_id = t4.user_id
+		WHERE t4.open_id = ${openId}
+	</select>
+
 </mapper>
