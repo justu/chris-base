@@ -23,17 +23,18 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
 	private SysUserRoleDao sysUserRoleDao;
 
 	@Override
-	public void saveOrUpdate(Long userId, List<Long> roleIdList) {
+	public void saveOrUpdate(Long userId, List<Long> roleIdList, int userSource) {
 		//先删除用户与角色关系
 		sysUserRoleDao.delete(userId);
 
 		if(roleIdList == null || roleIdList.size() == 0){
-			return ;
+			return;
 		}
 		
 		//保存用户与角色关系
 		Map<String, Object> map = new HashMap<>();
 		map.put("userId", userId);
+		map.put("userSource", userSource);
 		map.put("roleIdList", roleIdList);
 		sysUserRoleDao.save(map);
 	}

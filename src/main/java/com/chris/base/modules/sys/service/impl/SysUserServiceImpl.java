@@ -80,7 +80,7 @@ public class SysUserServiceImpl implements SysUserService {
 		checkRole(user);
 		
 		//保存用户与角色关系
-		sysUserRoleService.saveOrUpdate(user.getUserId(), user.getRoleIdList());
+		sysUserRoleService.saveOrUpdate(user.getUserId(), user.getRoleIdList(), Constant.UserSource.SYSTEM_USER);
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public class SysUserServiceImpl implements SysUserService {
 		checkRole(user);
 		
 		//保存用户与角色关系
-		sysUserRoleService.saveOrUpdate(user.getUserId(), user.getRoleIdList());
+		sysUserRoleService.saveOrUpdate(user.getUserId(), user.getRoleIdList(), Constant.UserSource.SYSTEM_USER);
 	}
 
 	@Override

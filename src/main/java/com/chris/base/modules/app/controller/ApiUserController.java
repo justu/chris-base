@@ -12,6 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,7 +41,7 @@ public class ApiUserController {
      */
     @PostMapping("login")
     @ApiOperation("用户登录")
-    public CommonResponse login(UserEntity user){
+    public CommonResponse login(@RequestBody UserEntity user){
         if (ValidateUtils.isEmptyString(user.getMobile())) {
             return CommonResponse.error("手机号不能为空！");
         }
@@ -56,7 +57,12 @@ public class ApiUserController {
     private Map<String, Object> generateAppToken(UserEntity user) {
         //用户登录
         long userId = this.userService.login(user.getMobile(), user.getPassword());
+        return this.doGenerateAppToken(userId);
 
+
+    }
+
+    private Map<String, Object> doGenerateAppToken(long userId) {
         //生成token
         String token = this.jwtUtils.generateToken(userId);
 
@@ -68,15 +74,15 @@ public class ApiUserController {
 
     @PostMapping("register")
     @ApiOperation("用户注册")
-    public CommonResponse register(UserEntity user){
+    public CommonResponse register(@RequestBody UserEntity user){
         if (ValidateUtils.isEmptyString(user.getMobile())) {
             return CommonResponse.error("手机号不能为空！");
         }
         if (ValidateUtils.isEmptyString(user.getPassword())) {
             return CommonResponse.error("密码不能为空！");
         }
-        userService.save(user);
-        Map<String, Object> map = this.generateAppToken(user);
+        userService.registerUser(user);
+        Map<String, Object> map = this.doGenerateAppToken(user.getUserId());
         return CommonResponse.ok(map);
     }
 

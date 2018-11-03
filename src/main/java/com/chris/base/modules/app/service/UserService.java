@@ -3,6 +3,7 @@ package com.chris.base.modules.app.service;
 
 import com.chris.base.modules.app.entity.UserEntity;
 import com.chris.base.modules.sys.entity.SysMenuEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -43,4 +44,7 @@ public interface UserService {
 	UserEntity queryUserByOpenId(String openId);
 
 	List<SysMenuEntity> queryUserMenusByOpenId(String openId);
+
+	@Transactional
+	void registerUser(UserEntity user);
 }

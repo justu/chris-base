@@ -25,4 +25,6 @@ public interface UserDao extends BaseDao<UserEntity> {
      * @return
      */
     List<SysMenuEntity> queryUserMenusByOpenId(String openId);
+
+    int countStaffByMobile(String mobile);
 }

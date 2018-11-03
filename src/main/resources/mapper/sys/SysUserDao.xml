@@ -15,6 +15,9 @@
 			<if test="username != null and username.trim() != ''">
 				and `username` like concat('%',#{username},'%') 
 			</if>
+			<if test="mobile != null">
+				and `mobile` = #{mobile}
+			</if>
 		</where>
 		<choose>
 			<when test="sidx != null and sidx.trim() != ''">
