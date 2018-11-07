@@ -6,7 +6,6 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
-import com.chris.base.common.utils.CommonResponse;
 import com.chris.base.common.utils.ConfigConstant;
 import com.chris.base.modules.sms.SMSConfig;
 import com.chris.base.modules.sms.service.SendSMSService;
@@ -21,7 +20,7 @@ public class SendSMSServiceImpl implements SendSMSService {
     private SysConfigService sysConfigService;
 
     @Override
-    public CommonResponse sendSms(String mobile, String templateParam, String templateCode) {
+    public SendSmsResponse sendSms(String mobile, String templateParam, String templateCode) {
 
         // 可自助调整超时时间
         System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
@@ -57,16 +56,13 @@ public class SendSMSServiceImpl implements SendSMSService {
         //request.setOutId("yourOutId");
 
         // hint 此处可能会抛出异常，注意catch
+        SendSmsResponse sendSmsResponse = null;
         try {
-            SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
-            if (sendSmsResponse.getCode() != null && ("OK").equals(sendSmsResponse.getCode())) {
-                //请求成功
-                return CommonResponse.ok();
-            }
+            sendSmsResponse = acsClient.getAcsResponse(request);
         } catch (ClientException e) {
             e.printStackTrace();
         }
 
-        return CommonResponse.error();
+        return sendSmsResponse;
     }
 }

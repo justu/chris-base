@@ -1,6 +1,6 @@
 package com.chris.base.modules.sms.service;
 
-import com.chris.base.common.utils.CommonResponse;
+import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 
 /**
  * @author hewei
@@ -9,5 +9,5 @@ import com.chris.base.common.utils.CommonResponse;
  */
 public interface SendSMSService {
 
-    CommonResponse sendSms(String mobile, String templateParam, String templateCode);
+    SendSmsResponse sendSms(String mobile, String templateParam, String templateCode);
 }
