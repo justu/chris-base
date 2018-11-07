@@ -39,7 +39,7 @@ public interface UserService {
 	 * @param password  密码
 	 * @return          返回用户ID
 	 */
-	long login(String mobile, String password);
+	UserEntity login(String mobile, String password);
 
 	UserEntity queryUserByOpenId(String openId);
 

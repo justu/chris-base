@@ -231,34 +231,36 @@
 		<finalName>${artifactId}</finalName>
 		<pluginManagement>
 			<plugins>
-				<!-- <plugin> -->
-				<!-- <groupId>org.springframework.boot</groupId> -->
-				<!-- <artifactId>spring-boot-maven-plugin</artifactId> -->
-				<!-- <version>${spring-boot.version}</version> -->
-				<!-- <executions> -->
-				<!-- <execution> -->
-				<!-- <goals> -->
-				<!-- <goal>build-info</goal> -->
-				<!-- </goals> -->
-				<!-- </execution> -->
-				<!-- </executions> -->
-				<!-- </plugin> -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.17</version>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>2.8.2</version>
 					<configuration>
-						<skipTests>true</skipTests>
+						<skip>true</skip>
 					</configuration>
 				</plugin>
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<configuration>
+						<finalName>${project.name}</finalName>
+					</configuration>
+				</plugin>
+				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<configuration>
-						<target>${java.version}</target>
-						<source>${java.version}</source>
+						<source>1.8</source>
+						<target>1.8</target>
 						<encoding>UTF-8</encoding>
+						<compilerArguments>
+							<extdirs>${basedir}/src/main/resources</extdirs>
+						</compilerArguments>
 					</configuration>
+				</plugin>
+				<!--用于解决没有web.xml报错 -->
+				<plugin>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>3.0.0</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>

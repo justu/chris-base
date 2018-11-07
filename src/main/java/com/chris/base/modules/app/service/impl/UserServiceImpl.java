@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public long login(String mobile, String password) {
+	public UserEntity login(String mobile, String password) {
 		UserEntity user = queryByMobile(mobile);
 		Assert.isNull(user, "手机号或密码错误");
 
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
 			throw new CommonException("手机号或密码错误");
 		}
 
-		return user.getUserId();
+		return user;
 	}
 
 	@Override

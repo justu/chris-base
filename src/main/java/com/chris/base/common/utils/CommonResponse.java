@@ -62,4 +62,12 @@ public class CommonResponse<T> extends HashMap<String, Object> {
     public static void main(String[] args) {
         System.out.println(JSONObject.toJSONString(CommonResponse.error(401, "invalid token").put("aa", "chris").get("aa")));
     }
+
+    public boolean isOK() {
+        return HttpStatus.SC_OK ==  Integer.valueOf(this.get("code").toString());
+    }
+
+    public T getData() {
+        return (T) this.get("data");
+    }
 }

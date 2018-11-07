@@ -1,6 +1,7 @@
 package com.chris.base.modules.app.controller;
 
 
+import com.chris.base.common.exception.CommonException;
 import com.chris.base.common.utils.CommonResponse;
 import com.chris.base.common.utils.ValidateUtils;
 import com.chris.base.modules.app.entity.UserEntity;
@@ -42,24 +43,19 @@ public class ApiUserController {
     @PostMapping("login")
     @ApiOperation("用户登录")
     public CommonResponse login(@RequestBody UserEntity user){
-        if (ValidateUtils.isEmptyString(user.getMobile())) {
-            return CommonResponse.error("手机号不能为空！");
-        }
-        if (ValidateUtils.isEmptyString(user.getPassword())) {
-            return CommonResponse.error("密码不能为空！");
-        }
+        this.validateParams(user, false);
         Map<String, Object> map = this.generateAppToken(user);
-
 
         return CommonResponse.ok(map);
     }
 
     private Map<String, Object> generateAppToken(UserEntity user) {
         //用户登录
-        long userId = this.userService.login(user.getMobile(), user.getPassword());
-        return this.doGenerateAppToken(userId);
-
-
+        UserEntity resultUser = this.userService.login(user.getMobile(), user.getPassword());
+        Map<String, Object> map = this.doGenerateAppToken(resultUser.getUserId());
+        List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(resultUser.getOpenId());
+        map.put("menus", userMenus);
+        return map;
     }
 
     private Map<String, Object> doGenerateAppToken(long userId) {
@@ -75,15 +71,26 @@ public class ApiUserController {
     @PostMapping("register")
     @ApiOperation("用户注册")
     public CommonResponse register(@RequestBody UserEntity user){
-        if (ValidateUtils.isEmptyString(user.getMobile())) {
-            return CommonResponse.error("手机号不能为空！");
-        }
-        if (ValidateUtils.isEmptyString(user.getPassword())) {
-            return CommonResponse.error("密码不能为空！");
-        }
+        this.validateParams(user, true);
         userService.registerUser(user);
         Map<String, Object> map = this.doGenerateAppToken(user.getUserId());
+        List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(user.getOpenId());
+        map.put("menus", userMenus);
         return CommonResponse.ok(map);
+    }
+
+    private void validateParams(UserEntity user, boolean isValidateOpenId) {
+        if (ValidateUtils.isEmptyString(user.getMobile())) {
+            throw new CommonException("手机号不能为空！");
+        }
+        if (ValidateUtils.isEmptyString(user.getPassword())) {
+            throw new CommonException("密码不能为空！");
+        }
+        if (isValidateOpenId) {
+            if (ValidateUtils.isEmptyString(user.getOpenId())) {
+                throw new CommonException("openId不能为空！");
+            }
+        }
     }
 
     @PostMapping("appEnter")
