@@ -1,6 +1,8 @@
 package com.chris.base.common.utils;
 
+import com.chris.base.common.exception.CommonException;
 import org.springframework.util.ObjectUtils;
+import org.springframework.validation.BindingResult;
 
 import java.lang.reflect.Array;
 import java.util.Collection;
@@ -44,5 +46,16 @@ public final class ValidateUtils {
 
     public static boolean equals(Object o1, Object o2) {
         return ObjectUtils.nullSafeEquals(o1, o2);
+    }
+
+    /**
+     * spring mvc validated params
+     * @param result
+     * @throws CommonException
+     */
+    public static void validatedParams(BindingResult result)throws CommonException {
+        if(result!=null && result.getAllErrors()!=null && result.getAllErrors().size()>0){
+            throw new CommonException(result.getAllErrors().get(0).getDefaultMessage());
+        }
     }
 }
