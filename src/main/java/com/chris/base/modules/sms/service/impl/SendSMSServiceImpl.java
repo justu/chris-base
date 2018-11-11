@@ -1,5 +1,6 @@
 package com.chris.base.modules.sms.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
@@ -7,20 +8,30 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.chris.base.common.utils.ConfigConstant;
+import com.chris.base.common.utils.HttpContextUtils;
+import com.chris.base.common.utils.VerifyCodeUtils;
 import com.chris.base.modules.sms.SMSConfig;
+import com.chris.base.modules.sms.SMSType;
+import com.chris.base.modules.sms.entity.SysSmsSendRecordEntity;
 import com.chris.base.modules.sms.service.SendSMSService;
+import com.chris.base.modules.sms.service.SysSmsSendRecordService;
 import com.chris.base.modules.sys.service.SysConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Service
 public class SendSMSServiceImpl implements SendSMSService {
 
     @Autowired
     private SysConfigService sysConfigService;
+    @Autowired
+    private SysSmsSendRecordService sysSmsSendRecordService;
 
     @Override
-    public SendSmsResponse sendSms(String mobile, String templateParam, String templateCode) {
+    public SendSmsResponse sendSms(String mobile, SMSType smsType, String templateParam, String templateCode) {
 
         // 可自助调整超时时间
         System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
@@ -47,6 +58,16 @@ public class SendSMSServiceImpl implements SendSMSService {
         request.setTemplateCode(templateCode);
 
         // 可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
+        if (SMSType.VERIFY.equals(smsType)) {
+            JSONObject jsonObject = JSONObject.parseObject(templateParam);
+            int length = Integer.parseInt(jsonObject.get("code").toString());
+            String validationCode = VerifyCodeUtils.getValidationCode(length);
+            jsonObject.put("code", validationCode);
+            templateParam = jsonObject.toJSONString();
+            HttpServletRequest httpServletRequest = HttpContextUtils.getHttpServletRequest();
+            HttpSession session = httpServletRequest.getSession();
+            session.setAttribute(mobile, validationCode);
+        }
         request.setTemplateParam(templateParam);
 
         // 选填-上行短信扩展码(无特殊需求用户请忽略此字段)
@@ -59,10 +80,26 @@ public class SendSMSServiceImpl implements SendSMSService {
         SendSmsResponse sendSmsResponse = null;
         try {
             sendSmsResponse = acsClient.getAcsResponse(request);
+            saveRecord(mobile, templateParam, templateCode);
         } catch (ClientException e) {
             e.printStackTrace();
         }
 
         return sendSmsResponse;
+    }
+
+    @Override
+    public String getVerifyCode(String mobile) {
+        HttpServletRequest httpServletRequest = HttpContextUtils.getHttpServletRequest();
+        HttpSession session = httpServletRequest.getSession();
+        return (String) session.getAttribute(mobile);
+    }
+
+    private void saveRecord(String mobile, String templateParam, String templateCode) {
+        SysSmsSendRecordEntity sysSmsSendRecordEntity = new SysSmsSendRecordEntity();
+        sysSmsSendRecordEntity.setMobile(mobile);
+        sysSmsSendRecordEntity.setTemplateParam(templateParam);
+        sysSmsSendRecordEntity.setTemplateCode(templateCode);
+        sysSmsSendRecordService.save(sysSmsSendRecordEntity);
     }
 }

@@ -1,6 +1,7 @@
 package com.chris.base.modules.sms.service;
 
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
+import com.chris.base.modules.sms.SMSType;
 
 /**
  * @author hewei
@@ -9,5 +10,7 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
  */
 public interface SendSMSService {
 
-    SendSmsResponse sendSms(String mobile, String templateParam, String templateCode);
+    SendSmsResponse sendSms(String mobile, SMSType smsType, String templateParam, String templateCode);
+
+    String getVerifyCode(String mobile);
 }

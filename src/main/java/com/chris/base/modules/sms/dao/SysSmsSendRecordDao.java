@@ -1,0 +1,17 @@
+package com.chris.base.modules.sms.dao;
+
+import com.chris.base.modules.sms.entity.SysSmsSendRecordEntity;
+import com.chris.base.modules.sys.dao.BaseDao;
+import org.apache.ibatis.annotations.Mapper;
+
+/**
+ * 短信服务下发记录表
+ * 
+ * @author chris
+ * @email 258321511@qq.com
+ * @since Nov 11.18
+ */
+@Mapper
+public interface SysSmsSendRecordDao extends BaseDao<SysSmsSendRecordEntity> {
+	
+}

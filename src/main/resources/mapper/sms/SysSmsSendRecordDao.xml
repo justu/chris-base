@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chris.base.modules.sms.dao.SysSmsSendRecordDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.chris.base.modules.sms.entity.SysSmsSendRecordEntity" id="sysSmsSendRecordMap">
+        <result property="id" column="id"/>
+        <result property="mobile" column="mobile"/>
+        <result property="templateParam" column="template_param"/>
+        <result property="templateCode" column="template_code"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <select id="queryObject" resultType="com.chris.base.modules.sms.entity.SysSmsSendRecordEntity">
+		select * from sys_sms_send_record where id = #{value}
+	</select>
+
+    <select id="queryList" resultType="com.chris.base.modules.sms.entity.SysSmsSendRecordEntity">
+        select * from sys_sms_send_record where 1=1
+        <if test="id != null and id !='' ">
+            AND id = #{id}
+        </if>
+        <if test="mobile != null and mobile !='' ">
+            AND mobile = #{mobile}
+        </if>
+        <if test="templateParam != null and templateParam !='' ">
+            AND template_param = #{templateParam}
+        </if>
+        <if test="templateCode != null and templateCode !='' ">
+            AND template_code = #{templateCode}
+        </if>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryTotal" resultType="int">
+        select count(*) from sys_sms_send_record where 1=1
+        <if test="id != null and id !='' ">
+            AND id = #{id}
+        </if>
+        <if test="mobile != null and mobile !='' ">
+            AND mobile = #{mobile}
+        </if>
+        <if test="templateParam != null and templateParam !='' ">
+            AND template_param = #{templateParam}
+        </if>
+        <if test="templateCode != null and templateCode !='' ">
+            AND template_code = #{templateCode}
+        </if>
+    </select>
+
+    <insert id="save" parameterType="com.chris.base.modules.sms.entity.SysSmsSendRecordEntity" useGeneratedKeys="true"
+            keyProperty="id">
+		insert into sys_sms_send_record
+		(
+			`mobile`, 
+			`template_param`, 
+			`template_code`
+		)
+		values
+		(
+			#{mobile}, 
+			#{templateParam}, 
+			#{templateCode}
+		)
+	</insert>
+
+    <update id="update" parameterType="com.chris.base.modules.sms.entity.SysSmsSendRecordEntity">
+        update sys_sms_send_record
+        <set>
+            <if test="mobile != null">`mobile` = #{mobile},</if>
+            <if test="templateParam != null">`template_param` = #{templateParam},</if>
+            <if test="templateCode != null">`template_code` = #{templateCode},</if>
+            <if test="createTime != null">`create_time` = #{createTime}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+		delete from sys_sms_send_record where id = #{value}
+	</delete>
+
+    <delete id="deleteBatch">
+        delete from sys_sms_send_record where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
