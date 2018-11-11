@@ -59,6 +59,7 @@ public class ApiUserController {
         //生成token
         String token = this.jwtUtils.generateToken(userId);
 
+
         Map<String, Object> map = new HashMap<>();
         map.put("token", token);
         map.put("expire", jwtUtils.getExpire());
@@ -69,6 +70,7 @@ public class ApiUserController {
     @ApiOperation("用户注册")
     public CommonResponse register(@RequestBody UserEntity user){
         this.validateParams(user, true);
+        // TODO 需要校验短信验证码
         userService.registerUser(user);
         Map<String, Object> map = this.doGenerateAppToken(user.getUserId());
         List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(user.getOpenId());

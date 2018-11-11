@@ -48,6 +48,9 @@
 			#{id}
 		</foreach>
 	</delete>
-	
+
+	<select id="queryAll"  resultType="com.chris.base.modules.sys.entity.SysConfigEntity">
+		select * from sys_config
+	</select>
 	
 </mapper>

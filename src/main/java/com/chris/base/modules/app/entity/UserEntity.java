@@ -30,6 +30,8 @@ public class UserEntity implements Serializable {
 
 	private String role;
 
+	private String verifyCode;
+
 	/**
 	 * 设置：用户ID
 	 */
@@ -99,11 +101,11 @@ public class UserEntity implements Serializable {
 		this.openId = openId;
 	}
 
-	public String getRole() {
-		return role;
+	public String getVerifyCode() {
+		return verifyCode;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setVerifyCode(String verifyCode) {
+		this.verifyCode = verifyCode;
 	}
 }
