@@ -8,10 +8,10 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.chris.base.common.utils.ConfigConstant;
+import com.chris.base.common.utils.Constant;
 import com.chris.base.common.utils.HttpContextUtils;
 import com.chris.base.common.utils.VerifyCodeUtils;
 import com.chris.base.modules.sms.SMSConfig;
-import com.chris.base.modules.sms.SMSType;
 import com.chris.base.modules.sms.entity.SysSmsSendRecordEntity;
 import com.chris.base.modules.sms.service.SendSMSService;
 import com.chris.base.modules.sms.service.SysSmsSendRecordService;
@@ -31,7 +31,7 @@ public class SendSMSServiceImpl implements SendSMSService {
     private SysSmsSendRecordService sysSmsSendRecordService;
 
     @Override
-    public SendSmsResponse sendSms(String mobile, SMSType smsType, String templateParam, String templateCode) {
+    public SendSmsResponse sendSms(String mobile, Constant.SMSType smsType, String templateParam, Constant.SMSTemplateCode templateCode) {
 
         // 可自助调整超时时间
         System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
@@ -55,10 +55,10 @@ public class SendSMSServiceImpl implements SendSMSService {
         // 必填:短信签名-可在短信控制台中找到
         request.setSignName(config.getSignName());
         // 必填:短信模板-可在短信控制台中找到
-        request.setTemplateCode(templateCode);
+        request.setTemplateCode(templateCode.getTemplateCode());
 
         // 可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
-        if (SMSType.VERIFY.equals(smsType)) {
+        if (Constant.SMSType.VERIFY.equals(smsType)) {
             JSONObject jsonObject = JSONObject.parseObject(templateParam);
             int length = Integer.parseInt(jsonObject.get("code").toString());
             String validationCode = VerifyCodeUtils.getValidationCode(length);
@@ -80,7 +80,7 @@ public class SendSMSServiceImpl implements SendSMSService {
         SendSmsResponse sendSmsResponse = null;
         try {
             sendSmsResponse = acsClient.getAcsResponse(request);
-            saveRecord(mobile, templateParam, templateCode);
+            saveRecord(mobile, templateParam, templateCode.getTemplateCode());
         } catch (ClientException e) {
             e.printStackTrace();
         }

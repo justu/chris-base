@@ -1,22 +1,22 @@
 package com.chris.base.common.utils;
 
-import com.google.common.collect.ImmutableMap;
-
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * 常量
- * 
+ *
  * @author chris
  * @email 258321511@qq.com
  * @date 2016年11月15日 下午1:23:52
  */
 public class Constant {
-	/** 超级管理员ID */
-	public static final int SUPER_ADMIN = 1;
+    /**
+     * 超级管理员ID
+     */
+    public static final int SUPER_ADMIN = 1;
 
-	public static final String TEMP_URL = "/resmgr/img/#{fileType}";
+    public static final String TEMP_URL = "/resmgr/img/#{fileType}";
 
     public static final Map<String, String> FILE_TYPE_MAP = new HashMap<>();
 
@@ -35,18 +35,18 @@ public class Constant {
         FILE_TYPE_MAP.put("avi", "video3.png");
     }
 
-	/**
-	 * 菜单类型
-	 * 
-	 * @author chris
-	 * @email 258321511@qq.com
-	 * @date 2016年11月15日 下午1:24:29
-	 */
+    /**
+     * 菜单类型
+     *
+     * @author chris
+     * @email 258321511@qq.com
+     * @date 2016年11月15日 下午1:24:29
+     */
     public enum MenuType {
         /**
          * 目录
          */
-    	CATALOG(0),
+        CATALOG(0),
         /**
          * 菜单
          */
@@ -66,10 +66,10 @@ public class Constant {
             return value;
         }
     }
-    
+
     /**
      * 定时任务状态
-     * 
+     *
      * @author chris
      * @email 258321511@qq.com
      * @date 2016年12月3日 上午12:07:22
@@ -78,18 +78,18 @@ public class Constant {
         /**
          * 正常
          */
-    	NORMAL(0),
+        NORMAL(0),
         /**
          * 暂停
          */
-    	PAUSE(1);
+        PAUSE(1);
 
         private int value;
 
         ScheduleStatus(int value) {
             this.value = value;
         }
-        
+
         public int getValue() {
             return value;
         }
@@ -124,7 +124,7 @@ public class Constant {
     }
 
     public enum FileType {
-        DOCUMENT("文档"),IMAGE("图片"),VIDEO("视频");
+        DOCUMENT("文档"), IMAGE("图片"), VIDEO("视频");
 
         private String value;
 
@@ -154,6 +154,52 @@ public class Constant {
         int WX_USER = 2;
     }
 
+    public enum SMSType {
+
+        /**
+         * 通知类短信
+         */
+        NOTICE,
+
+        /**
+         * 验证类短信
+         */
+        VERIFY
+    }
+
+    public enum SMSTemplateCode {
+
+        /**
+         * 预约审核失败短信模板
+         */
+        RESERVATION_FAIL("SMS_150182172"),
+        /**
+         * 预约审核成功短信模板
+         */
+        RESERVATION_SUCCESS("SMS_150172102"),
+        /**
+         * 预约处理短信模板
+         */
+        RESERVATION_HANDLE("SMS_150172100"),
+        /**
+         * 预约验证码短信模板
+         */
+        RESERVATION_VERIFY_CODE("SMS_150172084"),
+        /**
+         * 注册验证码短信模板
+         */
+        REGISTER_VERIFY_CODE("SMS_150182159");
+
+        private String templateCode;
+
+        SMSTemplateCode(String templateCode) {
+            this.templateCode = templateCode;
+        }
+
+        public String getTemplateCode() {
+            return templateCode;
+        }
+    }
 
 
 }
