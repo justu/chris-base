@@ -12,10 +12,7 @@ import com.chris.base.modules.sys.entity.SysMenuEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -93,15 +90,17 @@ public class ApiUserController {
         }
     }
 
-    @PostMapping("appEnter")
+    @GetMapping("appEnter")
     @ApiOperation("进入APP时操作")
     public CommonResponse appEnter(String openId) {
         // 根据 openId 查询用户信息
         UserEntity user = this.userService.queryUserByOpenId(openId);
         if (ValidateUtils.isNotEmpty(user)) {
+            Map<String, Object> map = this.doGenerateAppToken(user.getUserId());
             // TODO 获取用户微信端菜单
             List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(openId);
-            return CommonResponse.ok().put("menus", userMenus);
+            map.put("menus", userMenus);
+            return CommonResponse.ok(map);
         } else {
             // TODO 当前微信用户未注册，跳转到登录页
             return CommonResponse.error("用户未注册！");
