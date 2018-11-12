@@ -48,6 +48,10 @@ public final class ValidateUtils {
         return ObjectUtils.nullSafeEquals(o1, o2);
     }
 
+    public static boolean notEquals(Object o1, Object o2) {
+        return !equals(o1, o2);
+    }
+
     /**
      * spring mvc validated params
      * @param result

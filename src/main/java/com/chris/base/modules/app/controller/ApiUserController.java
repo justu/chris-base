@@ -3,6 +3,7 @@ package com.chris.base.modules.app.controller;
 
 import com.chris.base.common.exception.CommonException;
 import com.chris.base.common.utils.CommonResponse;
+import com.chris.base.common.utils.SendSMSUtils;
 import com.chris.base.common.utils.ValidateUtils;
 import com.chris.base.modules.app.entity.UserEntity;
 import com.chris.base.modules.app.service.UserService;
@@ -59,7 +60,6 @@ public class ApiUserController {
         //生成token
         String token = this.jwtUtils.generateToken(userId);
 
-
         Map<String, Object> map = new HashMap<>();
         map.put("token", token);
         map.put("expire", jwtUtils.getExpire());
@@ -70,7 +70,10 @@ public class ApiUserController {
     @ApiOperation("用户注册")
     public CommonResponse register(@RequestBody UserEntity user){
         this.validateParams(user, true);
-        // TODO 需要校验短信验证码
+        String verifyCode = SendSMSUtils.getVerifyCode(user.getMobile());
+        if (!ValidateUtils.equals(verifyCode, user.getVerifyCode())) {
+            return CommonResponse.error("验证码输入不正确！");
+        }
         userService.registerUser(user);
         Map<String, Object> map = this.doGenerateAppToken(user.getUserId());
         List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(user.getOpenId());
