@@ -20,6 +20,10 @@ public class Constant {
 
     public static final Map<String, String> FILE_TYPE_MAP = new HashMap<>();
 
+    public static final int VERIFY_CODE_LENGTH = 4;
+
+    public static final String SMS_SEND_OK = "OK";
+
     static {
         FILE_TYPE_MAP.put("doc", "word.png");
         FILE_TYPE_MAP.put("docx", "word.png");

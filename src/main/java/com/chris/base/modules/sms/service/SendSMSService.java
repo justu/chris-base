@@ -1,7 +1,8 @@
 package com.chris.base.modules.sms.service;
 
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
-import com.chris.base.common.utils.Constant;
+
+import java.util.Map;
 
 /**
  * @author hewei
@@ -10,7 +11,6 @@ import com.chris.base.common.utils.Constant;
  */
 public interface SendSMSService {
 
-    SendSmsResponse sendSms(String mobile, Constant.SMSType smsType, String templateParam, Constant.SMSTemplateCode templateCode);
+    SendSmsResponse sendSms(Map<String, Object> params);
 
-    String getVerifyCode(String mobile);
 }
