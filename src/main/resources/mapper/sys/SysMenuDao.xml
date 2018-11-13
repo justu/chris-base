@@ -17,7 +17,8 @@
 			`perms`, 
 			`type`, 
 			`icon`, 
-			`order_num`
+			`order_num`,
+			`source`
 		)
 		values
 		(
@@ -28,7 +29,8 @@
 			#{perms}, 
 			#{type}, 
 			#{icon}, 
-			#{orderNum}
+			#{orderNum},
+			#{source}
 		)
 	</insert>
 	

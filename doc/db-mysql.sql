@@ -9,6 +9,7 @@ CREATE TABLE `sys_menu` (
   `icon` varchar(50) COMMENT '菜单图标',
   `order_num` int COMMENT '排序',
   `status` char(1) DEFAULT '1' COMMENT '状态，1、有效 0、无效',
+  `source` char(1) DEFAULT '1' COMMENT '菜单来源，1、WEB端 2、微信端',
   PRIMARY KEY (`menu_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单管理';
 

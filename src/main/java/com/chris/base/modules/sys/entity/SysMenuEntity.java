@@ -66,6 +66,13 @@ public class SysMenuEntity implements Serializable {
 	
 	private List<?> list;
 
+	/**
+	 * 菜单来源
+	 * 1：WEB端
+	 * 2：微信端
+	 */
+	private int source;
+
 	public void setMenuId(Long menuId) {
 		this.menuId = menuId;
 	}
@@ -192,5 +199,13 @@ public class SysMenuEntity implements Serializable {
 
 	public void setOpen(Boolean open) {
 		this.open = open;
+	}
+
+	public int getSource() {
+		return source;
+	}
+
+	public void setSource(int source) {
+		this.source = source;
 	}
 }
