@@ -103,8 +103,7 @@ public class SysOssController {
 	/**
 	 * 上传文件
 	 */
-	@RequestMapping("/upload")
-	@RequiresPermissions("sys:oss:all")
+	@RequestMapping("/upload.notoken")
 	public CommonResponse upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws Exception {
 		if (file.isEmpty()) {
 			throw new CommonException("上传文件不能为空");
