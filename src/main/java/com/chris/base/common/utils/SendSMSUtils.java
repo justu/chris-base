@@ -83,6 +83,7 @@ public class SendSMSUtils {
 
     public static String getVerifyCode(String mobile) {
         HttpServletRequest httpServletRequest = HttpContextUtils.getHttpServletRequest();
-        return httpServletRequest.getSession().getAttribute(mobile).toString();
+        Object mobileAttr = httpServletRequest.getSession().getAttribute(mobile);
+        return ValidateUtils.isEmpty(mobileAttr)? null : mobileAttr.toString();
     }
 }
