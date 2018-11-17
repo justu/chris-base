@@ -1,20 +1,22 @@
 package com.chris.base.common.tree;
 
+import com.chris.base.common.utils.Constant;
+
 import java.io.Serializable;
 
 public class TreeNode implements Serializable{
     private static final long serialVersionUID = 1L;
 
-    private Integer nodeId;
+    private String nodeId;
     private String nodeName;
-    private Integer parentNodeId;
+    private String parentNodeId;
     private String extValue;
 
-    public Integer getNodeId() {
+    public String getNodeId() {
         return nodeId;
     }
 
-    public void setNodeId(Integer nodeId) {
+    public void setNodeId(String nodeId) {
         this.nodeId = nodeId;
     }
 
@@ -26,11 +28,11 @@ public class TreeNode implements Serializable{
         this.nodeName = nodeName;
     }
 
-    public Integer getParentNodeId() {
+    public String getParentNodeId() {
         return parentNodeId;
     }
 
-    public void setParentNodeId(Integer parentNodeId) {
+    public void setParentNodeId(String parentNodeId) {
         this.parentNodeId = parentNodeId;
     }
 
@@ -42,7 +44,26 @@ public class TreeNode implements Serializable{
         this.extValue = extValue;
     }
 
-    public TreeNode() {
+    private TreeNode() {
     }
+
+    public static TreeNode createRoot(String rootId, String rootName) {
+        TreeNode root = new TreeNode();
+        root.setNodeId(rootId);
+        root.setNodeName(rootName);
+        root.setParentNodeId(Constant.ROOT_NODE_ID);
+        return root;
+    }
+
+    public static TreeNode createNode(String nodeId, String nodeName, String parentNodeId, String extValue) {
+        TreeNode node = new TreeNode();
+        node.setNodeId(nodeId);
+        node.setNodeName(nodeName);
+        node.setParentNodeId(parentNodeId);
+        node.setExtValue(extValue);
+        return node;
+    }
+
+
 
 }

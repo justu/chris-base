@@ -24,6 +24,8 @@ public class Constant {
 
     public static final String SMS_SEND_OK = "OK";
 
+    public static final String ROOT_NODE_ID = "-1";
+
     static {
         FILE_TYPE_MAP.put("doc", "word.png");
         FILE_TYPE_MAP.put("docx", "word.png");

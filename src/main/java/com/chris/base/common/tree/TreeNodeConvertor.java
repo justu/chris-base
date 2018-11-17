@@ -26,7 +26,7 @@ public class TreeNodeConvertor {
     private TreeNodeConvertor () {
     }
     public List<TreeNode> convert2TreeNodes(List<Object> data, TreeNodeKeys keys) {
-        JSONArray jsonArray = JSONObject.parseArray(JSONObject.toJSONString(data));
+       /* JSONArray jsonArray = JSONObject.parseArray(JSONObject.toJSONString(data));
         Map<Object, TreeNode> parentNodes = new HashMap<>();
         jsonArray.forEach(obj -> {
             JSONObject jsonObject = (JSONObject) obj;
@@ -34,7 +34,7 @@ public class TreeNodeConvertor {
                     !parentNodes.containsKey(jsonObject.get(keys.getParentId()))) {
                 parentNodes.put(jsonObject.get(keys.getParentId()), new TreeNode());
             }
-        });
+        });*/
         return null;
     }
 }
