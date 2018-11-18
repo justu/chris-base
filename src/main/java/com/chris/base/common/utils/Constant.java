@@ -207,5 +207,12 @@ public class Constant {
         }
     }
 
+    public interface ErrorCode {
+        /***
+         * 未注册
+         **/
+        int UNREGISTER = 510;
+    }
+
 
 }

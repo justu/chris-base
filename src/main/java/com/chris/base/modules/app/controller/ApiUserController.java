@@ -71,7 +71,7 @@ public class ApiUserController {
     @ApiOperation("用户注册")
     public CommonResponse register(@RequestBody UserEntity user){
         this.validateParams(user, true);
-        String verifyCode = SendSMSUtils.getVerifyCode4App(user.getMobile(), Constant.SMSTemplateCode.REGISTER_VERIFY_CODE.toString());
+        String verifyCode = SendSMSUtils.getVerifyCode4App(user.getMobile(), Constant.SMSTemplateCode.REGISTER_VERIFY_CODE.getTemplateCode());
         if (!ValidateUtils.equals(verifyCode, user.getVerifyCode())) {
             return CommonResponse.error("验证码输入不正确！");
         }
@@ -109,7 +109,7 @@ public class ApiUserController {
             return CommonResponse.ok(map);
         } else {
             // TODO 当前微信用户未注册，跳转到登录页
-            return CommonResponse.error("用户未注册！");
+            return CommonResponse.error(Constant.ErrorCode.UNREGISTER,"用户未注册！");
         }
     }
 
