@@ -5,10 +5,7 @@ import com.chris.base.common.utils.CommonResponse;
 import com.chris.base.common.utils.ValidateUtils;
 import com.chris.base.modules.sms.service.SendSMSService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -28,7 +25,7 @@ public class SysSMSController {
      * 发送验证码短信
      */
     @RequestMapping(value = "/sendVerifyCode.notoken", method = RequestMethod.POST)
-    public CommonResponse sendVerifyCode(@RequestParam Map<String, Object> params) {
+    public CommonResponse sendVerifyCode(@RequestBody Map<String, Object> params) {
         SendSmsResponse sendSmsResponse = sendSMSService.sendSms(params);
         if(ValidateUtils.isEmpty(sendSmsResponse)){
             return CommonResponse.error("参数错误");
