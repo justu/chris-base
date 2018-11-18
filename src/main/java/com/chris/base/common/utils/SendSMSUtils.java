@@ -48,6 +48,9 @@ public class SendSMSUtils {
             HttpServletRequest httpServletRequest = HttpContextUtils.getHttpServletRequest();
             HttpSession session = httpServletRequest.getSession();
             session.setAttribute(smsEntity.getMobile(), validationCode);
+            JSONObject jsonObj = JSONObject.parseObject(smsEntity.getTemplateParam());
+            jsonObj.put("code", validationCode);
+            smsEntity.setTemplateParam(jsonObj.toJSONString());
         }
         request.setTemplateParam(templateParam);
 
@@ -85,5 +88,15 @@ public class SendSMSUtils {
         HttpServletRequest httpServletRequest = HttpContextUtils.getHttpServletRequest();
         Object mobileAttr = httpServletRequest.getSession().getAttribute(mobile);
         return ValidateUtils.isEmpty(mobileAttr)? null : mobileAttr.toString();
+    }
+
+    public static String getVerifyCode4App(String mobile, String tempCode) {
+        SysSmsSendRecordService sysSmsSendRecordService = SpringContextUtils.getBean("sysSmsSendRecordService", SysSmsSendRecordService.class);
+        String json = sysSmsSendRecordService.queryParamByMobile(mobile, tempCode);
+        if (ValidateUtils.isNotEmptyString(json)) {
+            JSONObject jsonObj = JSONObject.parseObject(json);
+            return jsonObj.getString("code");
+        }
+        return "";
     }
 }

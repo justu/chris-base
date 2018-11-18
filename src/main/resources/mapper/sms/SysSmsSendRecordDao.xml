@@ -97,4 +97,8 @@
         </foreach>
     </delete>
 
+    <select id="queryParamByMobile" resultType="java.lang.String">
+        select t.template_param from sys_sms_send_record t where t.mobile = #{mobile}  and t.template_code = #{tempCode} order by create_time desc limit 1
+    </select>
+
 </mapper>

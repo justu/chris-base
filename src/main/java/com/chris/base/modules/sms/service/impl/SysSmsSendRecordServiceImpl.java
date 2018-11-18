@@ -49,5 +49,9 @@ public class SysSmsSendRecordServiceImpl implements SysSmsSendRecordService {
 	public void deleteBatch(Long[] ids){
 		sysSmsSendRecordDao.deleteBatch(ids);
 	}
-	
+
+	@Override
+	public String queryParamByMobile(String mobile, String tempCode) {
+		return this.sysSmsSendRecordDao.queryParamByMobile(mobile, tempCode);
+	}
 }

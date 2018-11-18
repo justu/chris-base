@@ -3,6 +3,7 @@ package com.chris.base.modules.app.controller;
 
 import com.chris.base.common.exception.CommonException;
 import com.chris.base.common.utils.CommonResponse;
+import com.chris.base.common.utils.Constant;
 import com.chris.base.common.utils.SendSMSUtils;
 import com.chris.base.common.utils.ValidateUtils;
 import com.chris.base.modules.app.entity.UserEntity;
@@ -70,7 +71,7 @@ public class ApiUserController {
     @ApiOperation("用户注册")
     public CommonResponse register(@RequestBody UserEntity user){
         this.validateParams(user, true);
-        String verifyCode = SendSMSUtils.getVerifyCode(user.getMobile());
+        String verifyCode = SendSMSUtils.getVerifyCode4App(user.getMobile(), Constant.SMSTemplateCode.REGISTER_VERIFY_CODE.toString());
         if (!ValidateUtils.equals(verifyCode, user.getVerifyCode())) {
             return CommonResponse.error("验证码输入不正确！");
         }

@@ -1,6 +1,7 @@
 package com.chris.base.modules.sms.service;
 
 import com.chris.base.modules.sms.entity.SysSmsSendRecordEntity;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -27,4 +28,6 @@ public interface SysSmsSendRecordService {
 	void delete(Long id);
 	
 	void deleteBatch(Long[] ids);
+
+	String queryParamByMobile(String mobile, String tempCode);
 }
