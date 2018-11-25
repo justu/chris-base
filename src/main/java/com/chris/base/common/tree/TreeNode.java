@@ -1,8 +1,11 @@
 package com.chris.base.common.tree;
 
 import com.chris.base.common.utils.Constant;
+import sun.reflect.generics.tree.Tree;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TreeNode implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -11,6 +14,7 @@ public class TreeNode implements Serializable{
     private String nodeName;
     private String parentNodeId;
     private String extValue;
+    private List<TreeNode> children = new ArrayList<>();
 
     public String getNodeId() {
         return nodeId;
@@ -64,6 +68,15 @@ public class TreeNode implements Serializable{
         return node;
     }
 
+    public List<TreeNode> getChildren() {
+        return children;
+    }
 
+    public void setChildren(List<TreeNode> children) {
+        this.children = children;
+    }
 
+    public void addTreeNode(TreeNode treeNode) {
+        this.children.add(treeNode);
+    }
 }
