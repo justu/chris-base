@@ -1,7 +1,6 @@
 package com.chris.base.common.tree;
 
 import com.chris.base.common.utils.Constant;
-import sun.reflect.generics.tree.Tree;
 
 import java.io.Serializable;
 import java.util.ArrayList;
