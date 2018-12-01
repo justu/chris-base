@@ -47,4 +47,11 @@ public interface UserService {
 
 	@Transactional
 	void registerUser(UserEntity user);
+
+	/**
+	 * 注册不需要密码
+	 * @param user
+	 */
+	@Transactional
+    void registerUserWithoutPwd(UserEntity user);
 }

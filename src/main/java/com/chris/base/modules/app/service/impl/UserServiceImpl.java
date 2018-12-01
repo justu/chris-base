@@ -108,6 +108,16 @@ public class UserServiceImpl implements UserService {
 		this.sysUserRoleService.saveOrUpdate(user.getUserId(), ImmutableList.of(this.getUserRoleId(user)), Constant.UserSource.WX_USER);
 	}
 
+	@Override
+	public void registerUserWithoutPwd(UserEntity user) {
+		this.setUsername(user);
+		// 设置默认密码为手机号后6位
+		user.setPassword(user.getMobile().substring(5));
+		// 保存用户信息
+		this.save(user);
+		this.sysUserRoleService.saveOrUpdate(user.getUserId(), ImmutableList.of(this.getUserRoleId(user)), Constant.UserSource.WX_USER);
+	}
+
 	private void verifyUserIsExist(UserEntity user) {
 		if (ValidateUtils.isNotEmpty(this.userDao.queryByMobile(user.getMobile()))) {
 			throw new CommonException(user.getMobile() + " 号码已经注册，请直接登录！");

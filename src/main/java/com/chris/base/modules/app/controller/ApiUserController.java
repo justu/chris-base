@@ -67,6 +67,33 @@ public class ApiUserController {
         return map;
     }
 
+    @PostMapping("loginOrRegister")
+    @ApiOperation("用户登录或注册")
+    public CommonResponse loginOrRegister(@RequestBody UserEntity user){
+        this.validateParams(user, true);
+        String verifyCode = SendSMSUtils.getVerifyCode4App(user.getMobile(), Constant.SMSTemplateCode.REGISTER_VERIFY_CODE.getTemplateCode());
+        if (!ValidateUtils.equals(verifyCode, user.getVerifyCode())) {
+            return CommonResponse.error("验证码输入不正确！");
+        }
+        // 验证手机号是否已经注册
+        UserEntity resultUser = this.userService.queryByMobile(user.getMobile());
+        if (ValidateUtils.isEmpty(resultUser)) {
+            // 手机号未注册则进行注册
+            userService.registerUserWithoutPwd(user);
+            return this.doLoginAndGenerateToken(user);
+        } else {
+            // 手机号已经注册则直接获取用户菜单权限
+            return this.doLoginAndGenerateToken(resultUser);
+        }
+    }
+
+    private CommonResponse doLoginAndGenerateToken(UserEntity resultUser) {
+        Map<String, Object> map = this.doGenerateAppToken(resultUser.getUserId());
+        List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(resultUser.getOpenId());
+        map.put("menus", userMenus);
+        return CommonResponse.ok(map);
+    }
+
     @PostMapping("register")
     @ApiOperation("用户注册")
     public CommonResponse register(@RequestBody UserEntity user){
@@ -76,18 +103,15 @@ public class ApiUserController {
             return CommonResponse.error("验证码输入不正确！");
         }
         userService.registerUser(user);
-        Map<String, Object> map = this.doGenerateAppToken(user.getUserId());
-        List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(user.getOpenId());
-        map.put("menus", userMenus);
-        return CommonResponse.ok(map);
+        return this.doLoginAndGenerateToken(user);
     }
 
     private void validateParams(UserEntity user, boolean isValidateOpenId) {
         if (ValidateUtils.isEmptyString(user.getMobile())) {
             throw new CommonException("手机号不能为空！");
         }
-        if (ValidateUtils.isEmptyString(user.getPassword())) {
-            throw new CommonException("密码不能为空！");
+        if (ValidateUtils.isEmptyString(user.getVerifyCode())) {
+            throw new CommonException("验证码不能为空！");
         }
         if (isValidateOpenId) {
             if (ValidateUtils.isEmptyString(user.getOpenId())) {
