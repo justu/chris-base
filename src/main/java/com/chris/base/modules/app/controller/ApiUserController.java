@@ -1,18 +1,18 @@
 package com.chris.base.modules.app.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.chris.base.common.exception.CommonException;
-import com.chris.base.common.utils.CommonResponse;
-import com.chris.base.common.utils.Constant;
-import com.chris.base.common.utils.SendSMSUtils;
-import com.chris.base.common.utils.ValidateUtils;
+import com.chris.base.common.utils.*;
+import com.chris.base.modules.app.dto.AppRequestDTO;
 import com.chris.base.modules.app.entity.UserEntity;
 import com.chris.base.modules.app.service.UserService;
 import com.chris.base.modules.app.utils.JwtUtils;
-import com.chris.base.common.validator.Assert;
 import com.chris.base.modules.sys.entity.SysMenuEntity;
+import com.google.common.collect.Maps;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,12 +30,16 @@ import java.util.Map;
 @RestController
 @RequestMapping("/app")
 @Api("APP用户接口")
+@Slf4j
 public class ApiUserController {
     @Autowired
     private UserService userService;
     @Autowired
     private JwtUtils jwtUtils;
+    @Autowired
+    private RestTemplateUtils restTemplateUtils;
 
+    private static final String WX_URL = "https://api.weixin.qq.com/sns/jscode2session";
     /**
      * 登录
      */
@@ -120,9 +124,18 @@ public class ApiUserController {
         }
     }
 
-    @GetMapping("appEnter")
+    @PostMapping("appEnter")
     @ApiOperation("进入APP时操作")
-    public CommonResponse appEnter(String openId) {
+    public CommonResponse appEnter(@RequestBody AppRequestDTO appRequestDTO) {
+        log.error("appEnter 请求参数JSON = {} ", JSONObject.toJSONString(appRequestDTO));
+        //首先获取到openId
+        String respStr = this.restTemplateUtils.httpGetUrlVariable(WX_URL, String.class, this.convertReq2Map(appRequestDTO));
+        JSONObject resp = JSONObject.parseObject(respStr);
+        if (ValidateUtils.isNotEmpty(resp.get("errmsg"))) {
+            log.error("appEnter 请求失败！{}", resp);
+            return CommonResponse.error("openId不存在！");
+        }
+        String openId = resp.getString("openid");
         // 根据 openId 查询用户信息
         UserEntity user = this.userService.queryUserByOpenId(openId);
         if (ValidateUtils.isNotEmpty(user)) {
@@ -130,11 +143,20 @@ public class ApiUserController {
             // TODO 获取用户微信端菜单
             List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(openId);
             map.put("menus", userMenus);
-            return CommonResponse.ok(map);
+            return CommonResponse.ok(map).put("openid", openId);
         } else {
             // TODO 当前微信用户未注册，跳转到登录页
-            return CommonResponse.error(Constant.ErrorCode.UNREGISTER,"用户未注册！");
+            return CommonResponse.error(Constant.ErrorCode.UNREGISTER,"用户未注册！").put("openid", openId);
         }
+    }
+
+    private Map<String, Object> convertReq2Map(AppRequestDTO appRequestDTO) {
+        Map<String, Object> paramMap = Maps.newHashMap();
+        paramMap.put("appid", appRequestDTO.getAppId());
+        paramMap.put("secret", appRequestDTO.getSecret());
+        paramMap.put("js_code", appRequestDTO.getJsCode());
+        paramMap.put("grant_type", appRequestDTO.getGrantType());
+        return paramMap;
     }
 
 }
