@@ -194,7 +194,11 @@ public class Constant {
         /**
          * 注册验证码短信模板
          */
-        REGISTER_VERIFY_CODE("SMS_150182159");
+        REGISTER_VERIFY_CODE("SMS_150182159"),
+        /**
+         * 访客来访提醒被访人
+         */
+        RESERVATION_NOTICE("SMS_152505669");
 
         private String templateCode;
 
