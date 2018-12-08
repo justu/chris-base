@@ -5,6 +5,7 @@ import com.chris.base.common.utils.Constant;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class TreeNode implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -77,5 +78,22 @@ public class TreeNode implements Serializable{
 
     public void addTreeNode(TreeNode treeNode) {
         this.children.add(treeNode);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        TreeNode treeNode = (TreeNode) o;
+        return Objects.equals(nodeId, treeNode.nodeId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nodeId);
     }
 }
