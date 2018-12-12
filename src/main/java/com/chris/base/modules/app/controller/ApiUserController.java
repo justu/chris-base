@@ -95,6 +95,7 @@ public class ApiUserController {
         Map<String, Object> map = this.doGenerateAppToken(resultUser.getUserId());
         List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(resultUser.getOpenId());
         map.put("menus", userMenus);
+        map.put("roleId", resultUser.getRoleId());
         return CommonResponse.ok(map);
     }
 
@@ -143,6 +144,7 @@ public class ApiUserController {
             // TODO 获取用户微信端菜单
             List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(openId);
             map.put("menus", userMenus);
+            map.put("roleId", user.getRoleId());
             return CommonResponse.ok(map).put("openid", openId);
         } else {
             // TODO 当前微信用户未注册，跳转到登录页

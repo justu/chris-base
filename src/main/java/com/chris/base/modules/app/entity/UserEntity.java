@@ -28,7 +28,7 @@ public class UserEntity implements Serializable {
 	//微信 openId
 	private String openId;
 
-	private String role;
+	private Long roleId;
 
 	private String verifyCode;
 
@@ -107,5 +107,13 @@ public class UserEntity implements Serializable {
 
 	public void setVerifyCode(String verifyCode) {
 		this.verifyCode = verifyCode;
+	}
+
+	public Long getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
 	}
 }

@@ -115,7 +115,9 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(user.getMobile().substring(5));
 		// 保存用户信息
 		this.save(user);
-		this.sysUserRoleService.saveOrUpdate(user.getUserId(), ImmutableList.of(this.getUserRoleId(user)), Constant.UserSource.WX_USER);
+		long roleId = this.getUserRoleId(user);
+		this.sysUserRoleService.saveOrUpdate(user.getUserId(), ImmutableList.of(roleId), Constant.UserSource.WX_USER);
+		user.setRoleId(roleId);
 	}
 
 	private void verifyUserIsExist(UserEntity user) {

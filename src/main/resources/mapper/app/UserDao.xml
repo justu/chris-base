@@ -27,25 +27,25 @@
 	</select>
 
 	<select id="queryByMobile" resultType="com.chris.base.modules.app.entity.UserEntity">
-		select * from tb_user where mobile = #{value}
+		select t.*,ur.role_id from tb_user t LEFT JOIN sys_user_role ur ON t.user_id = ur.user_id
+		where t.mobile = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.chris.base.modules.app.entity.UserEntity">
-		select * from tb_user where 1=1
+		select t.*,ur.role_id from tb_user t
+		LEFT JOIN sys_user_role ur ON t.user_id = ur.user_id
+		where 1=1
 		<if test="userId != null and userId !='' ">
-			AND user_id = #{userId}
+			AND t.user_id = #{userId}
 		</if>
 		<if test="username != null and username !='' ">
-			AND username = #{username}
+			AND t.username = #{username}
 		</if>
 		<if test="mobile != null and mobile !='' ">
-			AND mobile = #{mobile}
-		</if>
-		<if test="password != null and password !='' ">
-			AND password = #{password}
+			AND t.mobile = #{mobile}
 		</if>
 		<if test="openId != null and openId !='' ">
-			AND open_id = #{openId}
+			AND t.open_id = #{openId}
 		</if>
 		<choose>
 			<when test="sidx != null and sidx.trim() != ''">
