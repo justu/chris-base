@@ -16,7 +16,7 @@ public class Constant {
      */
     public static final int SUPER_ADMIN = 1;
 
-    public static final String TEMP_URL = "/resmgr/img/#{fileType}";
+    public static final String TEMP_URL = "/smartpark/img/#{fileType}";
 
     public static final Map<String, String> FILE_TYPE_MAP = new HashMap<>();
 
@@ -147,6 +147,7 @@ public class Constant {
         String SLASH = "/";
         String DOT = ".";
         String UNDERLINE = "_";
+        String COMMA = ",";
     }
 
     public interface WXRole {
@@ -216,6 +217,11 @@ public class Constant {
          * 未注册
          **/
         int UNREGISTER = 510;
+    }
+
+    public interface Keys {
+        String OBJ_ID = "objId";
+        String OBJ_SOURCE = "objSource";
     }
 
 }

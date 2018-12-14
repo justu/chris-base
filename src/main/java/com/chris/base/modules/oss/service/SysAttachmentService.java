@@ -1,7 +1,9 @@
 package com.chris.base.modules.oss.service;
 
 import com.chris.base.modules.oss.entity.SysAttachmentEntity;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -33,4 +35,6 @@ public interface SysAttachmentService {
     List<SysAttachmentEntity> queryAttachmentsByCondition(SysAttachmentEntity attachmentEntity);
 
     void updateAttachmentsStatus2DeletedByResIds(Long[] resIds);
+
+	SysAttachmentEntity doUploadFile(MultipartFile file, Map<String, Object> params) throws IOException;
 }

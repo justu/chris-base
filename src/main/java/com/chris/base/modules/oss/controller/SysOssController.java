@@ -108,21 +108,8 @@ public class SysOssController {
 		if (file.isEmpty()) {
 			throw new CommonException("上传文件不能为空");
 		}
-		//上传文件
-		String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-		String fileType = this.getFileType(suffix.substring(1));
-		String url = OSSFactory.build().uploadSuffix(file.getBytes(), suffix);
-
-		//保存文件信息
-		SysAttachmentEntity attachmentEntity = new SysAttachmentEntity();
-		attachmentEntity.setUrl(url);
-		attachmentEntity.setName(file.getOriginalFilename());
-		attachmentEntity.setSuffixName(suffix.substring(1).toLowerCase());
-		attachmentEntity.setType(fileType);
-		attachmentEntity.generateTempURL();
-		this.sysAttachmentService.save(attachmentEntity);
-
-		return CommonResponse.ok().put("url", url).put("attachmentObj", attachmentEntity);
+		SysAttachmentEntity attachmentEntity = this.sysAttachmentService.doUploadFile(file, null);
+		return CommonResponse.ok().put("url", attachmentEntity.getUrl()).put("attachmentObj", attachmentEntity);
 	}
 
 	@RequestMapping("/downLoad")
@@ -134,23 +121,6 @@ public class SysOssController {
 		OSSFactory.build().download(attachmentEntity.getUrl(), response);
 		return CommonResponse.ok();
 	}
-
-	private String getFileType(String suffix) {
-		ImmutableList<String> docTypes = ImmutableList.of("doc", "docx", "xls", "xlsx", "csv", "pdf");
-		if (docTypes.contains(suffix.toLowerCase())) {
-			return Constant.FileType.DOCUMENT.getValue();
-		}
-		ImmutableList<String> imgTypes = ImmutableList.of("png", "jpg", "jpeg", "gif");
-		if (imgTypes.contains(suffix.toLowerCase())) {
-			return Constant.FileType.IMAGE.getValue();
-		}
-		ImmutableList<String> videoTypes = ImmutableList.of("mp4", "avi");
-		if (videoTypes.contains(suffix.toLowerCase())) {
-			return Constant.FileType.VIDEO.getValue();
-		}
-		throw new CommonException("不支持的文件类型[" + suffix + "]");
-	}
-
 
 	/**
 	 * 删除
