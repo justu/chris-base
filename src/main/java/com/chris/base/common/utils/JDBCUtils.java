@@ -3,6 +3,9 @@ package com.chris.base.common.utils;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -67,19 +70,48 @@ public class JDBCUtils {
         /**
          * 创建驱动和数据库连接对象
          */
-        try {
-            Class.forName(driver);
-            conn = DriverManager.getConnection(url, user, password);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            /**
-             * 如果数据库连接失败，则不应该继续往下，抛出运行时异常给虚拟机，终止程序
-             */
-            throw new RuntimeException("数据库连接失败！");
+
+            try {
+                if ((conn == null) || conn.isClosed()) {
+                Class.forName(driver);
+                conn = DriverManager.getConnection(url, user, password);
+                ConnectionHandler conHandler = new ConnectionHandler();
+                // 重新绑定 Connection
+                conn = conHandler.bind(conn);}
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                /**
+                 * 如果数据库连接失败，则不应该继续往下，抛出运行时异常给虚拟机，终止程序
+                 */
+                throw new RuntimeException("数据库连接失败！");
+            }
+    }
+
+    static class ConnectionHandler implements InvocationHandler {
+        private Connection con = null;
+        public Connection bind(Connection connection) {
+            con = connection;
+            Connection conProxy = (Connection) Proxy.newProxyInstance(
+                    connection.getClass().getClassLoader(),
+                    connection.getClass().getInterfaces(),
+                    this
+            );
+            return conProxy;
         }
 
+        public Object invoke(Object proxy, Method method, Object[] args)
+                throws Throwable {
+            Object obj = null;
+            if (method.getName().equals("close")) {
+                // 调用的方法是 close 时归还到池中
+            } else {
+                // 不是 close 方法时调用原有的方法
+                obj = method.invoke(con, args);
+            }
+            return obj;
+        }
     }
 
     /**
