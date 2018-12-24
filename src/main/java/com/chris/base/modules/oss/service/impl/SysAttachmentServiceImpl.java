@@ -108,7 +108,7 @@ public class SysAttachmentServiceImpl implements SysAttachmentService {
 		if (docTypes.contains(suffix.toLowerCase())) {
 			return Constant.FileType.DOCUMENT.getValue();
 		}
-		ImmutableList<String> imgTypes = ImmutableList.of("png", "jpg", "jpeg", "gif");
+		ImmutableList<String> imgTypes = ImmutableList.of("png", "jpg", "jpeg", "gif", "bmp");
 		if (imgTypes.contains(suffix.toLowerCase())) {
 			return Constant.FileType.IMAGE.getValue();
 		}

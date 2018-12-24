@@ -34,6 +34,7 @@ public class Constant {
         FILE_TYPE_MAP.put("csv", "excel.png");
         FILE_TYPE_MAP.put("jpg", "image2.png");
         FILE_TYPE_MAP.put("jpeg", "image2.png");
+        FILE_TYPE_MAP.put("bmp", "bmp.png");
         FILE_TYPE_MAP.put("gif", "image2.png");
         FILE_TYPE_MAP.put("png", "image2.png");
         FILE_TYPE_MAP.put("pdf", "pdf.png");
