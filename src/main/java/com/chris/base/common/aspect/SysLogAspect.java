@@ -1,5 +1,6 @@
 package com.chris.base.common.aspect;
 
+import com.chris.base.common.utils.ValidateUtils;
 import com.google.gson.Gson;
 import com.chris.base.common.annotation.SysLog;
 import com.chris.base.common.utils.HttpContextUtils;
@@ -83,9 +84,16 @@ public class SysLogAspect {
 		//设置IP地址
 		sysLog.setIp(IPUtils.getIpAddr(request));
 
-		//用户名
-		String username = ((SysUserEntity) SecurityUtils.getSubject().getPrincipal()).getUsername();
-		sysLog.setUsername(username);
+
+		if (ValidateUtils.isNotEmpty(SecurityUtils.getSubject()) &&
+				ValidateUtils.isNotEmpty(SecurityUtils.getSubject().getPrincipal())) {
+			//用户名
+			String username = ((SysUserEntity) SecurityUtils.getSubject().getPrincipal()).getUsername();
+			sysLog.setUsername(username);
+		} else {
+			// 小程序没有用户 session 信息，则暂时设置默认用户名
+			sysLog.setUsername("admin");
+		}
 
 		sysLog.setTime(time);
 		sysLog.setCreateDate(new Date());
