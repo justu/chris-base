@@ -1,6 +1,8 @@
 package com.chris.base.common.aspect;
 
 import com.chris.base.common.utils.ValidateUtils;
+import com.chris.base.modules.app.cache.AppLoginUser;
+import com.chris.base.modules.app.cache.AppLoginUserCacheUtils;
 import com.google.gson.Gson;
 import com.chris.base.common.annotation.SysLog;
 import com.chris.base.common.utils.HttpContextUtils;
@@ -91,8 +93,14 @@ public class SysLogAspect {
 			String username = ((SysUserEntity) SecurityUtils.getSubject().getPrincipal()).getUsername();
 			sysLog.setUsername(username);
 		} else {
-			// 小程序没有用户 session 信息，则暂时设置默认用户名
-			sysLog.setUsername("admin");
+			String openId = request.getHeader("openId");
+			AppLoginUser appLoginUser = AppLoginUserCacheUtils.getAppLoginUser(openId);
+			if (ValidateUtils.isNotEmpty(appLoginUser)) {
+				sysLog.setUsername(appLoginUser.getUsername());
+			} else {
+				// 小程序没有用户 session 信息，则暂时设置默认用户名
+				sysLog.setUsername("admin");
+			}
 		}
 
 		sysLog.setTime(time);

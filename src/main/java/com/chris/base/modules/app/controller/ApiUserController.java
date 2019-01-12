@@ -4,6 +4,8 @@ package com.chris.base.modules.app.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.chris.base.common.exception.CommonException;
 import com.chris.base.common.utils.*;
+import com.chris.base.modules.app.cache.AppLoginUser;
+import com.chris.base.modules.app.cache.AppLoginUserCacheUtils;
 import com.chris.base.modules.app.dto.AppRequestDTO;
 import com.chris.base.modules.app.entity.UserEntity;
 import com.chris.base.modules.app.service.UserService;
@@ -91,11 +93,13 @@ public class ApiUserController {
         }
     }
 
-    private CommonResponse doLoginAndGenerateToken(UserEntity resultUser) {
-        Map<String, Object> map = this.doGenerateAppToken(resultUser.getUserId());
-        List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(resultUser.getOpenId());
+    private CommonResponse doLoginAndGenerateToken(UserEntity user) {
+        Map<String, Object> map = this.doGenerateAppToken(user.getUserId());
+        List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(user.getOpenId());
         map.put("menus", userMenus);
-        map.put("roleId", resultUser.getRoleId());
+        map.put("roleId", user.getRoleId());
+        AppLoginUserCacheUtils.addAppLoginUser(user.getOpenId(),
+                new AppLoginUser(user.getUsername(), user.getMobile(), user.getRoleId()));
         return CommonResponse.ok(map);
     }
 
@@ -145,6 +149,7 @@ public class ApiUserController {
             List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(openId);
             map.put("menus", userMenus);
             map.put("roleId", user.getRoleId());
+            AppLoginUserCacheUtils.addAppLoginUser(openId, new AppLoginUser(user.getUsername(), user.getMobile(), user.getRoleId()));
             return CommonResponse.ok(map).put("openid", openId);
         } else {
             // TODO 当前微信用户未注册，跳转到登录页
