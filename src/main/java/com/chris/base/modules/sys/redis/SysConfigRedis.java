@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * 系统配置Redis
  *
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2017/7/18 21:08
  */
 @Component

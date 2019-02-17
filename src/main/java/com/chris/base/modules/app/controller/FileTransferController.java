@@ -24,7 +24,7 @@ import java.util.UUID;
  * 文件传输controller
  *
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2017-03-23 15:31
  */
 @RestController

@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 用户与角色对应关系
  * 
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2016年9月18日 上午9:28:39
  */
 public class SysUserRoleEntity implements Serializable {

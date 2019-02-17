@@ -9,7 +9,7 @@ import java.util.Map;
  * 字典项表
  * 
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @since Aug 28.18
  */
 public interface SysDicitemService {

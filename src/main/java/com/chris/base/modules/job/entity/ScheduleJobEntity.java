@@ -9,7 +9,7 @@ import java.util.Date;
  * 定时器
  * 
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2016年11月28日 下午12:54:44
  */
 public class ScheduleJobEntity implements Serializable {

@@ -10,7 +10,7 @@ import org.apache.shiro.subject.Subject;
  * Shiro工具类
  * 
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2016年11月12日 上午9:49:19
  */
 public class ShiroUtils {

@@ -9,7 +9,7 @@ import java.util.Map;
  * 系统日志
  * 
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2017-03-08 10:40:56
  */
 public interface SysLogService {

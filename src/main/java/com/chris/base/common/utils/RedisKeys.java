@@ -4,7 +4,7 @@ package com.chris.base.common.utils;
  * Redis所有Keys
  *
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2017-07-18 19:51
  */
 public class RedisKeys {

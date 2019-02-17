@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
  * 定时任务配置
  *
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2017-04-20 23:38
  */
 @Configuration

@@ -1,5 +1,7 @@
 package com.chris.base.modules.app.cache;
 
+import com.chris.base.modules.app.entity.UserEntity;
+
 import java.io.Serializable;
 
 /**
@@ -14,10 +16,13 @@ public class AppLoginUser implements Serializable {
 
     private Long roleId;
 
-    public AppLoginUser(String username, String mobile, Long roleId) {
-        this.username = username;
-        this.mobile = mobile;
-        this.roleId = roleId;
+    private Long userId;
+
+    public AppLoginUser(UserEntity user) {
+        this.username = user.getUsername();
+        this.mobile = user.getMobile();
+        this.roleId = user.getRoleId();
+        this.userId = user.getUserId();
     }
 
     public String getUsername() {
@@ -42,5 +47,13 @@ public class AppLoginUser implements Serializable {
 
     public void setRoleId(Long roleId) {
         this.roleId = roleId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

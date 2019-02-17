@@ -11,7 +11,7 @@ import java.util.List;
  * 角色
  * 
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2016年9月18日 上午9:27:38
  */
 public class SysRoleEntity implements Serializable {

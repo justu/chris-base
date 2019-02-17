@@ -8,7 +8,7 @@ import java.util.Date;
  * 短信服务下发记录表
  * 
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @since Nov 11.18
  */
 public class SysSmsSendRecordEntity  implements Serializable {

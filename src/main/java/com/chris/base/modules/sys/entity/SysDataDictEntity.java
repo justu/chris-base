@@ -8,7 +8,7 @@ import java.util.Date;
  * 数据字典表
  * 
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @since Sep 18.18
  */
 public class SysDataDictEntity implements Serializable {

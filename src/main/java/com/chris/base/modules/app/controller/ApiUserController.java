@@ -26,7 +26,7 @@ import java.util.Map;
  * APP登录授权
  *
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2017-03-23 15:31
  */
 @RestController
@@ -98,8 +98,7 @@ public class ApiUserController {
         List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(user.getOpenId());
         map.put("menus", userMenus);
         map.put("roleId", user.getRoleId());
-        AppLoginUserCacheUtils.addAppLoginUser(user.getOpenId(),
-                new AppLoginUser(user.getUsername(), user.getMobile(), user.getRoleId()));
+        AppLoginUserCacheUtils.addAppLoginUser(user.getOpenId(), new AppLoginUser(user));
         return CommonResponse.ok(map);
     }
 
@@ -149,7 +148,7 @@ public class ApiUserController {
             List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(openId);
             map.put("menus", userMenus);
             map.put("roleId", user.getRoleId());
-            AppLoginUserCacheUtils.addAppLoginUser(openId, new AppLoginUser(user.getUsername(), user.getMobile(), user.getRoleId()));
+            AppLoginUserCacheUtils.addAppLoginUser(openId, new AppLoginUser(user));
             return CommonResponse.ok(map).put("openid", openId);
         } else {
             // TODO 当前微信用户未注册，跳转到登录页

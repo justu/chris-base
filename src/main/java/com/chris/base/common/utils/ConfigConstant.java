@@ -3,7 +3,7 @@ package com.chris.base.common.utils;
 /**
  * 系统参数相关Key
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2017-03-26 10:33
  */
 public class ConfigConstant {

@@ -8,7 +8,7 @@ import java.util.Date;
  * 属性值表
  * 
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @since Aug 28.18
  */
 public class SysAttrValueEntity implements Serializable {

@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
  * 字典项表
  * 
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @since Aug 28.18
  */
 @Mapper

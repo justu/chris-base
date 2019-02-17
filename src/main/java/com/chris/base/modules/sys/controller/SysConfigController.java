@@ -18,7 +18,7 @@ import java.util.Map;
  * 系统参数信息
  * 
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2016年12月4日 下午6:55:53
  */
 @RestController

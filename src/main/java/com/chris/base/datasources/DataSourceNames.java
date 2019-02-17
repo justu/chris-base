@@ -4,7 +4,7 @@ package com.chris.base.datasources;
  * 增加多数据源，在此配置
  *
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2017/8/18 23:46
  */
 public interface DataSourceNames {

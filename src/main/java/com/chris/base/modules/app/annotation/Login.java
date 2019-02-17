@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 /**
  * app登录效验
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2017/9/23 14:30
  */
 @Target(ElementType.METHOD)

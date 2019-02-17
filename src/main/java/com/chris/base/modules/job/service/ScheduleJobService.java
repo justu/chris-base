@@ -9,7 +9,7 @@ import java.util.Map;
  * 定时任务
  * 
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2016年11月28日 上午9:55:32
  */
 public interface ScheduleJobService {

@@ -10,7 +10,7 @@ import org.quartz.*;
  * 定时任务工具类
  * 
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2016年11月30日 下午12:44:59
  */
 public class ScheduleUtils {

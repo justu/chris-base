@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * 系统日志注解
  * 
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2017年3月8日 上午10:19:56
  */
 @Target(ElementType.METHOD)

@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
  * Controller公共组件
  * 
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2016年11月9日 下午9:42:26
  */
 public abstract class AbstractController {

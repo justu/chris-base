@@ -12,7 +12,7 @@ import java.util.Properties;
  * 生成验证码配置
  *
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2017-04-20 19:22
  */
 @Configuration

@@ -18,7 +18,7 @@ import java.util.Map;
  * 数据字典表
  *
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @since Sep 18.18
  */
 @RestController

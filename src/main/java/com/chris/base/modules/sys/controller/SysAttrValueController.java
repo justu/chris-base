@@ -17,7 +17,7 @@ import java.util.Map;
  * 属性值表
  * 
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @since Mar 22.18
  */
 @RestController

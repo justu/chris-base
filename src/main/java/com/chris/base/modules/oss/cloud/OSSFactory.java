@@ -8,7 +8,7 @@ import com.chris.base.modules.sys.service.SysConfigService;
 /**
  * 文件上传Factory
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2017-03-26 10:18
  */
 public final class OSSFactory {

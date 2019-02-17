@@ -10,7 +10,7 @@ import java.util.Map;
  * 查询参数
  *
  * @author chris
- * @email 258321511@qq.com
+ * @email forzamilan0607@gmail.com
  * @date 2017-03-14 23:15
  */
 public class Query extends LinkedHashMap<String, Object> {
