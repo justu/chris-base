@@ -1,15 +1,14 @@
 package com.chris.base.modules.sys.controller;
 
-import com.chris.base.common.utils.CommonResponse;
+import com.chris.base.common.utils.*;
 import com.chris.base.modules.sys.entity.SysConfigEntity;
 import com.chris.base.modules.sys.service.SysConfigService;
 import com.chris.base.common.annotation.SysLog;
-import com.chris.base.common.utils.PageUtils;
-import com.chris.base.common.utils.Query;
 import com.chris.base.common.validator.ValidatorUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import sun.misc.Cache;
 
 import java.util.List;
 import java.util.Map;
@@ -26,6 +25,9 @@ import java.util.Map;
 public class SysConfigController extends AbstractController {
 	@Autowired
 	private SysConfigService sysConfigService;
+
+	@Autowired
+	private CacheDataUtils cacheDataUtils;
 	
 	/**
 	 * 所有配置列表
@@ -64,6 +66,8 @@ public class SysConfigController extends AbstractController {
 	public CommonResponse save(@RequestBody SysConfigEntity config){
 		ValidatorUtils.validateEntity(config);
 
+		List<SysConfigEntity> configList = this.cacheDataUtils.getConfigList();
+		configList.add(config);
 		sysConfigService.save(config);
 		
 		return CommonResponse.ok();
@@ -77,7 +81,12 @@ public class SysConfigController extends AbstractController {
 	@RequiresPermissions("sys:config:update")
 	public CommonResponse update(@RequestBody SysConfigEntity config){
 		ValidatorUtils.validateEntity(config);
-		
+		List<SysConfigEntity> configList = this.cacheDataUtils.getConfigList();
+		configList.forEach(item -> {
+			if (ValidateUtils.equals(config.getKey(), item.getKey())) {
+				item.setValue(config.getValue());
+			}
+		});
 		sysConfigService.update(config);
 		
 		return CommonResponse.ok();
