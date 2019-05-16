@@ -1,11 +1,11 @@
 package com.chris.base.modules.sys.controller;
 
-import com.chris.base.common.utils.CommonResponse;
+import com.chris.base.common.exception.CommonException;
+import com.chris.base.common.utils.*;
+import com.chris.base.modules.sys.dto.SysDataDictDTO;
 import com.chris.base.modules.sys.entity.SysDataDictEntity;
 import com.chris.base.modules.sys.service.SysDataDictService;
-import com.chris.base.common.utils.GlobalDataUtils;
-import com.chris.base.common.utils.PageUtils;
-import com.chris.base.common.utils.Query;
+import com.google.common.collect.ImmutableMap;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -100,5 +100,15 @@ public class SysDataDictController {
 
         return CommonResponse.ok();
     }
+
+    @RequestMapping("/list.notoken")
+    public CommonResponse queryByType(@PathVariable("type") String type) {
+        if (ValidateUtils.isEmptyString(type)) {
+            throw new CommonException("类别为空");
+        }
+        List<SysDataDictDTO> dataDictList = this.sysDataDictService.queryDataDictDtoList(ImmutableMap.of("type", type));
+        return CommonResponse.ok().put("list", dataDictList);
+    }
+
 
 }
