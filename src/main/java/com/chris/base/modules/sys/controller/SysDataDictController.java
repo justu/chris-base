@@ -102,7 +102,7 @@ public class SysDataDictController {
     }
 
     @RequestMapping("/list.notoken")
-    public CommonResponse queryByType(@PathVariable("type") String type) {
+    public CommonResponse queryByType(@RequestParam String type) {
         if (ValidateUtils.isEmptyString(type)) {
             throw new CommonException("类别为空");
         }
