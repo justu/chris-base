@@ -32,6 +32,8 @@ public class UserEntity implements Serializable {
 
 	private String verifyCode;
 
+	private String staffName;
+
 	/**
 	 * 设置：用户ID
 	 */
@@ -115,5 +117,13 @@ public class UserEntity implements Serializable {
 
 	public void setRoleId(Long roleId) {
 		this.roleId = roleId;
+	}
+
+	public String getStaffName() {
+		return staffName;
+	}
+
+	public void setStaffName(String staffName) {
+		this.staffName = staffName;
 	}
 }

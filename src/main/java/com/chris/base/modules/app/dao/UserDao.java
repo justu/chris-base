@@ -6,6 +6,7 @@ import com.chris.base.modules.sys.entity.SysMenuEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户
@@ -27,4 +28,7 @@ public interface UserDao extends BaseDao<UserEntity> {
     List<SysMenuEntity> queryUserMenusByOpenId(String openId);
 
     int countStaffByMobile(String mobile);
+
+    Map<String, Object> queryStaffByMobile(String mobile);
+
 }

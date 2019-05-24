@@ -98,6 +98,12 @@ public class ApiUserController {
         List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(user.getOpenId());
         map.put("menus", userMenus);
         map.put("roleId", user.getRoleId());
+        if (!ValidateUtils.equals(Constant.WXRole.VISITOR, user.getRoleId())) {
+            // 员工或管理员需要返回员工姓名和手机号
+            map.put("staffName", user.getStaffName());
+            map.put("mobile", user.getMobile());
+        }
+
         AppLoginUserCacheUtils.addAppLoginUser(user.getOpenId(), new AppLoginUser(user));
         return CommonResponse.ok(map);
     }

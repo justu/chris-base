@@ -118,6 +118,7 @@ public class UserServiceImpl implements UserService {
 		long roleId = this.getUserRoleId(user);
 		this.sysUserRoleService.saveOrUpdate(user.getUserId(), ImmutableList.of(roleId), Constant.UserSource.WX_USER);
 		user.setRoleId(roleId);
+
 	}
 
 	private void verifyUserIsExist(UserEntity user) {
@@ -135,15 +136,19 @@ public class UserServiceImpl implements UserService {
 	private long getUserRoleId(UserEntity user) {
 		// 根据手机号关联到系统管理员用户
 		List<SysUserEntity> sysUsers = this.sysUserService.queryList(ImmutableMap.of("mobile", user.getMobile()));
+		long roleId = Constant.WXRole.VISITOR;
 		if (ValidateUtils.isNotEmptyCollection(sysUsers)) {
 			// 用户也是管理员 创建用户
-			return Constant.WXRole.ADMIN;
+			roleId = Constant.WXRole.ADMIN;
 		}
 		// 用户是员工
-		int count = this.userDao.countStaffByMobile(user.getMobile());
-		if (count > 0) {
-			return Constant.WXRole.STAFF;
+		Map<String, Object> staff = this.userDao.queryStaffByMobile(user.getMobile());
+		if (ValidateUtils.isNotEmpty(staff)) {
+			if (ValidateUtils.notEquals(Constant.WXRole.ADMIN, roleId)) {
+				roleId = Constant.WXRole.STAFF;
+			}
+			user.setStaffName(staff.get("USERNAME") + "");
 		}
-		return Constant.WXRole.VISITOR;
+		return roleId;
 	}
 }

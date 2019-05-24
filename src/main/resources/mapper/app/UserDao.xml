@@ -27,7 +27,9 @@
 	</select>
 
 	<select id="queryByMobile" resultType="com.chris.base.modules.app.entity.UserEntity">
-		select t.*,ur.role_id from tb_user t LEFT JOIN sys_user_role ur ON t.user_id = ur.user_id
+		select t.*,ur.role_id,s.USERNAME AS staffName from tb_user t
+		LEFT JOIN sys_user_role ur ON t.user_id = ur.user_id
+		LEFT JOIN base_staff s ON s.MOBILE = t.mobile
 		where t.mobile = #{value}
 	</select>
 
@@ -68,6 +70,10 @@
 
 	<select id="countStaffByMobile" resultType="java.lang.Integer" parameterType="java.lang.String">
 		select COUNT(1) from base_staff t where t.mobile = #{mobile}
+	</select>
+
+	<select id="queryStaffByMobile" resultType="java.util.HashMap" parameterType="java.lang.String">
+		select * from base_staff t where t.mobile = #{mobile} limit 1
 	</select>
 
 </mapper>
