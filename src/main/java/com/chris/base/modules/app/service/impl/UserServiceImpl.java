@@ -90,8 +90,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserEntity queryUserByOpenId(String openId) {
-		List<UserEntity> userList = this.userDao.queryList(ImmutableMap.of("openId", openId));
-		return ValidateUtils.isEmptyCollection(userList) ? null : userList.get(0);
+		return this.userDao.queryUserByOpenId(openId);
 	}
 
     @Override

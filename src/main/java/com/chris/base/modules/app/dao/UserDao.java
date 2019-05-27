@@ -31,4 +31,5 @@ public interface UserDao extends BaseDao<UserEntity> {
 
     Map<String, Object> queryStaffByMobile(String mobile);
 
+    UserEntity queryUserByOpenId(String openId);
 }

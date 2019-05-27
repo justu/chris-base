@@ -31,6 +31,15 @@
 		LEFT JOIN sys_user_role ur ON t.user_id = ur.user_id
 		LEFT JOIN base_staff s ON s.MOBILE = t.mobile
 		where t.mobile = #{value}
+		limit 1
+	</select>
+
+	<select id="queryUserByOpenId" resultType="com.chris.base.modules.app.entity.UserEntity">
+		select t.*,ur.role_id,s.USERNAME AS staffName from tb_user t
+		LEFT JOIN sys_user_role ur ON t.user_id = ur.user_id
+		LEFT JOIN base_staff s ON s.MOBILE = t.mobile
+		where t.open_id = #{openId}
+		limit 1
 	</select>
 
 	<select id="queryList" resultType="com.chris.base.modules.app.entity.UserEntity">
