@@ -60,6 +60,7 @@ public class ApiUserController {
         Map<String, Object> map = this.doGenerateAppToken(resultUser.getUserId());
         List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(resultUser.getOpenId());
         map.put("menus", userMenus);
+        map.put("user", resultUser);
         return map;
     }
 
@@ -97,13 +98,12 @@ public class ApiUserController {
         Map<String, Object> map = this.doGenerateAppToken(user.getUserId());
         List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(user.getOpenId());
         map.put("menus", userMenus);
-        map.put("roleId", user.getRoleId());
-        if (!ValidateUtils.equals(Constant.WXRole.VISITOR, user.getRoleId())) {
+        map.put("user", user);
+        /*if (!ValidateUtils.equals(Constant.WXRole.VISITOR, user.getRoleId())) {
             // 员工或管理员需要返回员工姓名和手机号
             map.put("staffName", user.getStaffName());
             map.put("mobile", user.getMobile());
-        }
-
+        }*/
         AppLoginUserCacheUtils.addAppLoginUser(user.getOpenId(), new AppLoginUser(user));
         return CommonResponse.ok(map);
     }
@@ -153,13 +153,7 @@ public class ApiUserController {
             // TODO 获取用户微信端菜单
             List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(openId);
             map.put("menus", userMenus);
-            map.put("roleId", user.getRoleId());
-            if (!ValidateUtils.equals(Constant.WXRole.VISITOR, user.getRoleId())) {
-                // 员工或管理员需要返回员工姓名和手机号
-                map.put("staffName", user.getStaffName());
-                map.put("mobile", user.getMobile());
-            }
-            AppLoginUserCacheUtils.addAppLoginUser(openId, new AppLoginUser(user));
+            map.put("user", user);
             return CommonResponse.ok(map).put("openid", openId);
         } else {
             // TODO 当前微信用户未注册，跳转到登录页
