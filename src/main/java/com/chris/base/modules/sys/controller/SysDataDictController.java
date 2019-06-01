@@ -110,5 +110,4 @@ public class SysDataDictController {
         return CommonResponse.ok().put("list", dataDictList);
     }
 
-
 }

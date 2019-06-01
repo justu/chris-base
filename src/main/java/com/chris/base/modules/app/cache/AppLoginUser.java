@@ -18,11 +18,14 @@ public class AppLoginUser implements Serializable {
 
     private Long userId;
 
-    public AppLoginUser(UserEntity user) {
+    private String token;
+
+    public AppLoginUser(UserEntity user, String token) {
         this.username = user.getUsername();
         this.mobile = user.getMobile();
         this.roleId = user.getRoleId();
         this.userId = user.getUserId();
+        this.token = token;
     }
 
     public String getUsername() {
@@ -55,5 +58,13 @@ public class AppLoginUser implements Serializable {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

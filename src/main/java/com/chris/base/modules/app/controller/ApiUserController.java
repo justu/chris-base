@@ -104,7 +104,7 @@ public class ApiUserController {
             map.put("staffName", user.getStaffName());
             map.put("mobile", user.getMobile());
         }*/
-        AppLoginUserCacheUtils.addAppLoginUser(user.getOpenId(), new AppLoginUser(user));
+        AppLoginUserCacheUtils.addAppLoginUser(user.getOpenId(), new AppLoginUser(user, map.get("token").toString()));
         return CommonResponse.ok(map);
     }
 
@@ -154,6 +154,7 @@ public class ApiUserController {
             List<SysMenuEntity> userMenus = this.userService.queryUserMenusByOpenId(openId);
             map.put("menus", userMenus);
             map.put("user", user);
+            AppLoginUserCacheUtils.addAppLoginUser(openId, new AppLoginUser(user, map.get("token").toString()));
             return CommonResponse.ok(map).put("openid", openId);
         } else {
             // TODO 当前微信用户未注册，跳转到登录页

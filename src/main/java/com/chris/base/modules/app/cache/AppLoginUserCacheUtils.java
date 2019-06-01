@@ -7,7 +7,9 @@ import java.util.Map;
 public class AppLoginUserCacheUtils {
     public static volatile Map<String, AppLoginUser> appLoginUserMap = Maps.newConcurrentMap();
 
-    public static void addAppLoginUser(String openId,AppLoginUser appLoginUser) {
+    public static volatile Map<String, Boolean> reloginMap = Maps.newConcurrentMap();
+
+    public static void addAppLoginUser(String openId, AppLoginUser appLoginUser) {
         appLoginUserMap.put(openId, appLoginUser);
     }
 
