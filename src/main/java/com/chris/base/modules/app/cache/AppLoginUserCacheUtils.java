@@ -22,8 +22,10 @@ public class AppLoginUserCacheUtils {
         if (ValidateUtils.isEmpty(appLoginUser)) {
             UserService userService = (UserService) SpringContextUtils.getBean("userService");
             UserEntity user = userService.queryUserByOpenId(openId);
-            appLoginUser = new AppLoginUser(user, null);
-            appLoginUserMap.put(openId, appLoginUser);
+            if (ValidateUtils.isNotEmpty(user)) {
+                appLoginUser = new AppLoginUser(user, null);
+                appLoginUserMap.put(openId, appLoginUser);
+            }
         }
         return appLoginUser;
     }

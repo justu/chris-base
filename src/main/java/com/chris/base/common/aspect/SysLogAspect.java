@@ -10,6 +10,7 @@ import com.chris.base.common.utils.IPUtils;
 import com.chris.base.modules.sys.entity.SysLogEntity;
 import com.chris.base.modules.sys.entity.SysUserEntity;
 import com.chris.base.modules.sys.service.SysLogService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -33,6 +34,7 @@ import java.util.Date;
  */
 @Aspect
 @Component
+@Slf4j
 public class SysLogAspect {
 	@Autowired
 	private SysLogService sysLogService;
@@ -94,12 +96,18 @@ public class SysLogAspect {
 			sysLog.setUsername(username);
 		} else {
 			String openId = request.getHeader("openId");
-			AppLoginUser appLoginUser = AppLoginUserCacheUtils.getAppLoginUser(openId);
-			if (ValidateUtils.isNotEmpty(appLoginUser)) {
-				sysLog.setUsername(appLoginUser.getUsername());
-			} else {
+			log.error("openId = {}", openId);
+			if (ValidateUtils.isEmptyString(openId)) {
 				// 小程序没有用户 session 信息，则暂时设置默认用户名
 				sysLog.setUsername("admin");
+			} else {
+				AppLoginUser appLoginUser = AppLoginUserCacheUtils.getAppLoginUser(openId);
+				if (ValidateUtils.isNotEmpty(appLoginUser)) {
+					sysLog.setUsername(appLoginUser.getUsername());
+				} else {
+					log.error("appLoginUser is null");
+					sysLog.setUsername("admin");
+				}
 			}
 		}
 
