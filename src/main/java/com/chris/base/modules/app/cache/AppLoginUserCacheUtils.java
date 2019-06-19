@@ -1,5 +1,9 @@
 package com.chris.base.modules.app.cache;
 
+import com.chris.base.common.utils.SpringContextUtils;
+import com.chris.base.common.utils.ValidateUtils;
+import com.chris.base.modules.app.entity.UserEntity;
+import com.chris.base.modules.app.service.UserService;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
@@ -14,7 +18,14 @@ public class AppLoginUserCacheUtils {
     }
 
     public static AppLoginUser getAppLoginUser(String openId) {
-        return appLoginUserMap.get(openId);
+        AppLoginUser appLoginUser = appLoginUserMap.get(openId);
+        if (ValidateUtils.isEmpty(appLoginUser)) {
+            UserService userService = (UserService) SpringContextUtils.getBean("userService");
+            UserEntity user = userService.queryUserByOpenId(openId);
+            appLoginUser = new AppLoginUser(user, null);
+            appLoginUserMap.put(openId, appLoginUser);
+        }
+        return appLoginUser;
     }
 
 }
