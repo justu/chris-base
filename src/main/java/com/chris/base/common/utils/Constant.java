@@ -180,11 +180,13 @@ public class Constant {
         /**
          * 预约审核失败短信模板
          */
-        RESERVATION_FAIL("SMS_150182172"),
+//        RESERVATION_FAIL("SMS_150182172"),
+        RESERVATION_FAIL("SMS_152505658"),
         /**
          * 预约审核成功短信模板
          */
-        RESERVATION_SUCCESS("SMS_150172102"),
+//        RESERVATION_SUCCESS("SMS_150172102"),
+        RESERVATION_SUCCESS("SMS_152510535"),
         /**
          * 预约处理短信模板
          */
