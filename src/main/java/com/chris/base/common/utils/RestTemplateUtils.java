@@ -36,8 +36,7 @@ public class RestTemplateUtils {
      * @return
      */
     public <T> T httpGetPathVariable(String url, Class<T> respType, Object... pathVariables){
-        T result = restTemplate.getForObject(url, respType, pathVariables);
-        return restTemplate.getForObject(url, respType, pathVariables);
+        return this.restTemplate.getForObject(url, respType, pathVariables);
     }
 
 
