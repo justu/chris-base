@@ -39,6 +39,12 @@ public class RestTemplateUtils {
         return this.restTemplate.getForObject(url, respType, pathVariables);
     }
 
+    public <T> T httpGet(String url, Class<T> respType){
+        return this.restTemplate.getForObject(url, respType);
+    }
+
+
+
 
     /**
      * Http GET请求Url里不带参数的请求

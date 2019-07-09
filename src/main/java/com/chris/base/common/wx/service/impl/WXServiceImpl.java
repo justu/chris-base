@@ -40,7 +40,7 @@ public class WXServiceImpl implements WXService {
 
     @Override
     public String getAccessToken(String appId, String secret) {
-        String resp = this.restTemplateUtils.httpGetPathVariable(WXConstants.Urls.GET_ACCESS_TOKEN.replace("#{appId}", appId).replace("#{secret}", secret), String.class, null);
+        String resp = this.restTemplateUtils.httpGet(WXConstants.Urls.GET_ACCESS_TOKEN.replace("#{appId}", appId).replace("#{secret}", secret), String.class);
         JSONObject result = JSONObject.parseObject(resp);
         if (this.isReqSuccessful(result)) {
             return result.getString("access_token");
