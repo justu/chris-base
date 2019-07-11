@@ -12,4 +12,6 @@ public class RedisKeys {
     public static String getSysConfigKey(String key){
         return "sys:config:" + key;
     }
+
+    public static final String APP_ACCESS_TOKEN = "APP_ACCESS_TOKEN";
 }

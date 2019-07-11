@@ -1,9 +1,12 @@
 package com.chris.base.common.wx.dto;
 
 import com.alibaba.fastjson.JSONObject;
+import lombok.Builder;
+import lombok.Data;
 
 import java.io.Serializable;
 
+@Builder
 public class WXMsgTempSendDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
