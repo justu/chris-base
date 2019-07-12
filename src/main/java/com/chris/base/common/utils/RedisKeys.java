@@ -14,4 +14,9 @@ public class RedisKeys {
     }
 
     public static final String APP_ACCESS_TOKEN = "APP_ACCESS_TOKEN";
+
+    public interface Prefix {
+        String VERIFY_CODE = "VERIFY_CODE_";
+    }
+
 }

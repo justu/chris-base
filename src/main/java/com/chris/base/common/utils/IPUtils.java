@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * IP地址
  * 
- * @author chris
- * @email forzamilan0607@gmail.com
- * @date 2017年3月8日 下午12:57:02
+ * @author ding.zhong
+ * @email 258321511@qq.com
+ * @date Mar 12.19
  */
 public class IPUtils {
 	private static Logger logger = LoggerFactory.getLogger(IPUtils.class);
@@ -51,8 +51,11 @@ public class IPUtils {
 //				ip = ip.substring(0, ip.indexOf(","));
 //			}
 //		}
-        
         return ip;
+    }
+
+    public static String getIpAddr() {
+	    return getIpAddr(HttpContextUtils.getHttpServletRequest());
     }
 	
 }

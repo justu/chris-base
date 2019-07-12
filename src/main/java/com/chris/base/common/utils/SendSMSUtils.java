@@ -5,20 +5,28 @@ import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
+import com.chris.base.common.exception.CommonException;
+import com.chris.base.common.model.VerifySMSParam;
 import com.chris.base.modules.sms.config.SMSFactory;
 import com.chris.base.modules.sms.entity.SMSEntity;
 import com.chris.base.modules.sms.entity.SysSmsSendRecordEntity;
 import com.chris.base.modules.sms.service.SysSmsSendRecordService;
+import com.google.common.base.Verify;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 /**
  * @author hewei
  * @version V.1.0.0
  * @date Created in 11:33 2018/11/12
  */
+@Slf4j
 public class SendSMSUtils {
+
+    private static final long SMS_EXP_TIME = 180;
 
     public static SendSmsResponse sendSms(SMSEntity smsEntity) {
         // 可自助调整超时时间
@@ -40,6 +48,7 @@ public class SendSMSUtils {
         String templateParam = smsEntity.getTemplateParam();
         // 可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
         if (Constant.SMSType.VERIFY.equals(smsEntity.getSmsType())) {
+            validateSMS(smsEntity);
             JSONObject jsonObject = JSONObject.parseObject(templateParam);
             int length = Integer.parseInt(jsonObject.get("code").toString());
             String validationCode = VerifyCodeUtils.getValidationCode(length);
@@ -51,6 +60,9 @@ public class SendSMSUtils {
             JSONObject jsonObj = JSONObject.parseObject(smsEntity.getTemplateParam());
             jsonObj.put("code", validationCode);
             smsEntity.setTemplateParam(jsonObj.toJSONString());
+            VerifySMSParam verifySMSParam = new VerifySMSParam(smsEntity.getMobile(), validationCode, DateUtils.currentDate(), IPUtils.getIpAddr());
+            getRedisUtils().set(getVerifySMSKey(smsEntity.getMobile(), smsEntity.getTemplateCode()), verifySMSParam, SMS_EXP_TIME);
+            getRedisUtils().set(getVerifySMSKey(verifySMSParam.getIpAddr(), smsEntity.getTemplateCode()), verifySMSParam, SMS_EXP_TIME);
         }
         request.setTemplateParam(templateParam);
 
@@ -75,6 +87,27 @@ public class SendSMSUtils {
         return sendSmsResponse;
     }
 
+    private static String getVerifySMSKey(String value, String tempCode) {
+        return RedisKeys.Prefix.VERIFY_CODE + value + "_" + tempCode;
+    }
+
+    private static void validateSMS(SMSEntity smsEntity) {
+        // TODO 1分钟之内只能发一次
+        Date curDate = DateUtils.currentDate();
+        VerifySMSParam verifySMSParam = getRedisUtils().get(getVerifySMSKey(smsEntity.getMobile(), smsEntity.getTemplateCode()), VerifySMSParam.class);
+        if (ValidateUtils.isNotEmpty(verifySMSParam) && DateUtils.getBetweenMinutes(verifySMSParam.getSendDate(), curDate) < 1) {
+            throw new CommonException("同一手机号1分钟只能下发一次短信");
+        }
+        String ipAddr = IPUtils.getIpAddr();
+        if (log.isDebugEnabled()) {
+            log.debug("手机号 = {}, IP地址 = {}", smsEntity.getMobile(), ipAddr);
+        }
+        verifySMSParam = getRedisUtils().get(getVerifySMSKey(ipAddr, smsEntity.getTemplateCode()), VerifySMSParam.class);
+        if (ValidateUtils.isNotEmpty(verifySMSParam) && DateUtils.getBetweenMinutes(verifySMSParam.getSendDate(), curDate) < 1) {
+            throw new CommonException("同一IP地址1分钟只能下发一次短信");
+        }
+    }
+
     private static void saveRecord(SMSEntity smsEntity) {
         SysSmsSendRecordEntity sysSmsSendRecordEntity = new SysSmsSendRecordEntity();
         sysSmsSendRecordEntity.setMobile(smsEntity.getMobile());
@@ -91,12 +124,14 @@ public class SendSMSUtils {
     }
 
     public static String getVerifyCode4App(String mobile, String tempCode) {
-        SysSmsSendRecordService sysSmsSendRecordService = SpringContextUtils.getBean("sysSmsSendRecordService", SysSmsSendRecordService.class);
-        String json = sysSmsSendRecordService.queryParamByMobile(mobile, tempCode);
-        if (ValidateUtils.isNotEmptyString(json)) {
-            JSONObject jsonObj = JSONObject.parseObject(json);
-            return jsonObj.getString("code");
+        VerifySMSParam verifySMSParam = getRedisUtils().get(getVerifySMSKey(mobile, tempCode), VerifySMSParam.class);
+        if (ValidateUtils.isEmpty(verifySMSParam)) {
+            throw new CommonException("无效的验证码");
         }
-        return "";
+        return verifySMSParam.getCode();
+    }
+
+    private static RedisUtils getRedisUtils() {
+        return SpringContextUtils.getBean("redisUtils", RedisUtils.class);
     }
 }

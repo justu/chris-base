@@ -72,6 +72,19 @@ public class DateUtils {
         long DAY = 24L * 60L * 60L * 1000L;
         return new Integer((int)((eDate.getTime() - sDate.getTime())/DAY));
     }
+
+    /**
+     * 两个日期之间的间隔分钟
+     * @param sDate
+     * @param eDate
+     * @return
+     */
+    public static Integer getBetweenMinutes(Date sDate,Date eDate) {
+        long minute = 60L * 1000L;
+        Integer betweenMinutes = new Integer((int) ((eDate.getTime() - sDate.getTime()) / minute));
+        return Math.abs(betweenMinutes);
+    }
+
     /**
      * 两个日期之间的间隔月数
      * @param sDate
