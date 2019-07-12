@@ -126,7 +126,7 @@ public class SendSMSUtils {
     public static String getVerifyCode4App(String mobile, String tempCode) {
         VerifySMSParam verifySMSParam = getRedisUtils().get(getVerifySMSKey(mobile, tempCode), VerifySMSParam.class);
         if (ValidateUtils.isEmpty(verifySMSParam)) {
-            throw new CommonException("无效的验证码");
+            return null;
         }
         return verifySMSParam.getCode();
     }
