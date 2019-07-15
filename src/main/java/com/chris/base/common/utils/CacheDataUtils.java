@@ -47,4 +47,9 @@ public class CacheDataUtils {
         }
         return null;
     }
+
+    public String getConfigValueByKey(String key, String defaultValue) {
+        String value = getConfigValueByKey(key);
+        return ValidateUtils.isNotEmptyString(value) ? value : defaultValue;
+    }
 }

@@ -26,8 +26,6 @@ import java.util.Date;
 @Slf4j
 public class SendSMSUtils {
 
-    private static final long SMS_EXP_TIME = 180;
-
     public static SendSmsResponse sendSms(SMSEntity smsEntity) {
         // 可自助调整超时时间
         System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
@@ -61,8 +59,9 @@ public class SendSMSUtils {
             jsonObj.put("code", validationCode);
             smsEntity.setTemplateParam(jsonObj.toJSONString());
             VerifySMSParam verifySMSParam = new VerifySMSParam(smsEntity.getMobile(), validationCode, DateUtils.currentDate(), IPUtils.getIpAddr());
-            getRedisUtils().set(getVerifySMSKey(smsEntity.getMobile(), smsEntity.getTemplateCode()), verifySMSParam, SMS_EXP_TIME);
-            getRedisUtils().set(getVerifySMSKey(verifySMSParam.getIpAddr(), smsEntity.getTemplateCode()), verifySMSParam, SMS_EXP_TIME);
+            int verifyCodeExpire = Integer.valueOf(getCacheDataUtils().getConfigValueByKey("VERIFY_CODE_EXPIRE", "300"));
+            getRedisUtils().set(getVerifySMSKey(smsEntity.getMobile(), smsEntity.getTemplateCode()), verifySMSParam, verifyCodeExpire);
+            getRedisUtils().set(getVerifySMSKey(verifySMSParam.getIpAddr(), smsEntity.getTemplateCode()), verifySMSParam, verifyCodeExpire);
         }
         request.setTemplateParam(templateParam);
 
@@ -92,19 +91,19 @@ public class SendSMSUtils {
     }
 
     private static void validateSMS(SMSEntity smsEntity) {
-        // TODO 1分钟之内只能发一次
+        int sendSMSInterval = Integer.valueOf(getCacheDataUtils().getConfigValueByKey("SEND_SMS_INTERVAL", "1"));
         Date curDate = DateUtils.currentDate();
         VerifySMSParam verifySMSParam = getRedisUtils().get(getVerifySMSKey(smsEntity.getMobile(), smsEntity.getTemplateCode()), VerifySMSParam.class);
-        if (ValidateUtils.isNotEmpty(verifySMSParam) && DateUtils.getBetweenMinutes(verifySMSParam.getSendDate(), curDate) < 1) {
-            throw new CommonException("同一手机号1分钟只能下发一次短信");
+        if (ValidateUtils.isNotEmpty(verifySMSParam) && DateUtils.getBetweenMinutes(verifySMSParam.getSendDate(), curDate) < sendSMSInterval) {
+            throw new CommonException("同一手机号" + sendSMSInterval + "分钟只能下发一次短信");
         }
         String ipAddr = IPUtils.getIpAddr();
         if (log.isDebugEnabled()) {
             log.debug("手机号 = {}, IP地址 = {}", smsEntity.getMobile(), ipAddr);
         }
         verifySMSParam = getRedisUtils().get(getVerifySMSKey(ipAddr, smsEntity.getTemplateCode()), VerifySMSParam.class);
-        if (ValidateUtils.isNotEmpty(verifySMSParam) && DateUtils.getBetweenMinutes(verifySMSParam.getSendDate(), curDate) < 1) {
-            throw new CommonException("同一IP地址1分钟只能下发一次短信");
+        if (ValidateUtils.isNotEmpty(verifySMSParam) && DateUtils.getBetweenMinutes(verifySMSParam.getSendDate(), curDate) < sendSMSInterval) {
+            throw new CommonException("同一IP地址" + sendSMSInterval + "分钟只能下发一次短信");
         }
     }
 
@@ -133,5 +132,9 @@ public class SendSMSUtils {
 
     private static RedisUtils getRedisUtils() {
         return SpringContextUtils.getBean("redisUtils", RedisUtils.class);
+    }
+
+    private static CacheDataUtils getCacheDataUtils() {
+        return SpringContextUtils.getBean("cacheDataUtils", CacheDataUtils.class);
     }
 }
