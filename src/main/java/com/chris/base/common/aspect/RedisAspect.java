@@ -1,3 +1,4 @@
+/*
 package com.chris.base.common.aspect;
 
 import com.chris.base.common.exception.CommonException;
@@ -9,13 +10,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+*/
 /**
  * Redis切面处理类
  *
  * @author chris
  * @email forzamilan0607@gmail.com
  * @date 2017-07-17 23:30
- */
+ *//*
+
 @Aspect
 @Configuration
 public class RedisAspect {
@@ -38,3 +41,4 @@ public class RedisAspect {
         return result;
     }
 }
+*/
