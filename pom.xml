@@ -9,6 +9,7 @@
 
 	<modules>
         <module>chris-common</module>
+        <module>chris-sys</module>
         <module>chris-swagger</module>
         <module>chris-redis</module>
         <module>chris-shiro</module>
