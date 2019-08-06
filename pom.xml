@@ -18,6 +18,7 @@
 
 	<properties>
 		<chrisbase.version>1.0.4-SNAPSHOT</chrisbase.version>
+		<shiro.version>1.3.2</shiro.version>
 	</properties>
 
     <parent>

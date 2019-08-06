@@ -12,7 +12,7 @@
 	<artifactId>chris-sys</artifactId>
 
 	<properties>
-		<swagger.version>2.2.2</swagger.version>
+		<kaptcha.version>0.0.9</kaptcha.version>
 	</properties>
 
 	<dependencies>
@@ -20,6 +20,18 @@
 			<groupId>com.chris.base</groupId>
 			<artifactId>chris-common</artifactId>
 			<version>${chrisbase.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.chris.base</groupId>
+			<artifactId>chris-shiro</artifactId>
+			<version>${chrisbase.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.axet</groupId>
+			<artifactId>kaptcha</artifactId>
+			<version>${kaptcha.version}</version>
 		</dependency>
 
 	</dependencies>

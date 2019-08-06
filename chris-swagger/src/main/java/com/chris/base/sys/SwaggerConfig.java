@@ -1,4 +1,4 @@
-package com.chris.base.swagger.config;
+package com.chris.base.sys;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;

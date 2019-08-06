@@ -1,6 +1,6 @@
 package com.chris.base.shiro.service;
 
-import com.chris.base.shiro.model.SysUserEntity;
+import com.chris.base.shiro.model.ShiroUser;
 import com.chris.base.shiro.model.SysUserTokenEntity;
 
 import java.util.Set;
@@ -23,5 +23,5 @@ public interface ShiroService {
      * 根据用户ID，查询用户
      * @param userId
      */
-    SysUserEntity queryUser(Long userId);
+    ShiroUser queryUser(Long userId);
 }

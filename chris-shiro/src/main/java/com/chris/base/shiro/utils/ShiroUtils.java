@@ -1,6 +1,7 @@
 package com.chris.base.shiro.utils;
 
-import com.chris.base.shiro.model.SysUserEntity;
+import com.chris.base.common.exception.CommonException;
+import com.chris.base.shiro.model.ShiroUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -22,8 +23,8 @@ public class ShiroUtils {
 		return SecurityUtils.getSubject();
 	}
 
-	public static SysUserEntity getShiroUser() {
-		return (SysUserEntity)SecurityUtils.getSubject().getPrincipal();
+	public static ShiroUser getShiroUser() {
+		return (ShiroUser)SecurityUtils.getSubject().getPrincipal();
 	}
 
 	public static Long getUserId() {
@@ -42,13 +43,13 @@ public class ShiroUtils {
 		return SecurityUtils.getSubject().getPrincipal() != null;
 	}
 
-	/*public static String getKaptcha(String key) {
+	public static String getKaptcha(String key) {
 		Object kaptcha = getSessionAttribute(key);
 		if(kaptcha == null){
 			throw new CommonException("验证码已失效");
 		}
 		getSession().removeAttribute(key);
 		return kaptcha.toString();
-	}*/
+	}
 
 }

@@ -1,6 +1,6 @@
 package com.chris.base.shiro.oauth2;
 
-import com.chris.base.shiro.model.SysUserEntity;
+import com.chris.base.shiro.model.ShiroUser;
 import com.chris.base.shiro.model.SysUserTokenEntity;
 import com.chris.base.shiro.service.ShiroService;
 import org.apache.shiro.authc.*;
@@ -35,7 +35,7 @@ public class OAuth2Realm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        SysUserEntity user = (SysUserEntity)principals.getPrimaryPrincipal();
+        ShiroUser user = (ShiroUser)principals.getPrimaryPrincipal();
         Long userId = user.getUserId();
 
         //用户权限列表
@@ -61,7 +61,7 @@ public class OAuth2Realm extends AuthorizingRealm {
         }
 
         //查询用户信息
-        SysUserEntity user = this.shiroService.queryUser(tokenEntity.getUserId());
+        ShiroUser user = this.shiroService.queryUser(tokenEntity.getUserId());
         //账号锁定
         if(user.getStatus() == 0){
             throw new LockedAccountException("账号已被锁定,请联系管理员");
