@@ -41,7 +41,7 @@ public class WXServiceImpl implements WXService {
 
     @Override
     public String getAccessToken(String appId, String secret) {
-        String accessToken = this.redisUtils.get(RedisKeys.APP_ACCESS_TOKEN);
+        String accessToken = this.redisUtils.get(RedisKeys.APP_ACCESS_TOKEN, 3600);
         if (ValidateUtils.isNotEmptyString(accessToken)) {
             return accessToken;
         }
@@ -49,7 +49,7 @@ public class WXServiceImpl implements WXService {
         JSONObject result = JSONObject.parseObject(resp);
         if (this.isReqSuccessful(result)) {
             accessToken = result.getString("access_token");
-            this.redisUtils.set(RedisKeys.APP_ACCESS_TOKEN, accessToken, 86400);
+            this.redisUtils.set(RedisKeys.APP_ACCESS_TOKEN, accessToken, 3600);
             return accessToken;
         }
         throw new InvalidAccessTokenException(result.getString("errmsg"));
