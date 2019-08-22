@@ -190,7 +190,8 @@ public class Constant {
         /**
          * 预约处理短信模板
          */
-        RESERVATION_HANDLE("SMS_150172100"),
+//        RESERVATION_HANDLE("SMS_150172100"),
+        RESERVATION_HANDLE("SMS_172741227"),
         /**
          * 预约验证码短信模板
          */
